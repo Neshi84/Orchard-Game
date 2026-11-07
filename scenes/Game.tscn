@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://bci73j25wp6c3"]
+
+[ext_resource type="Script" uid="uid://dmyhtmwdqwjvl" path="res://scripts/Game.gd" id="1_78awf"]
+[ext_resource type="PackedScene" uid="uid://ccab3hivigpn5" path="res://scenes/Tree.tscn" id="2_s0nni"]
+[ext_resource type="PackedScene" uid="uid://b4gdrisbosb4j" path="res://scenes/Barrel.tscn" id="3_aug50"]
+[ext_resource type="PackedScene" uid="uid://cjo4t2sab2hsr" path="res://scenes/Fruit.tscn" id="3_s0nni"]
+[ext_resource type="PackedScene" uid="uid://c4mii5kgvtpe2" path="res://scenes/Still.tscn" id="4_kiw3p"]
+[ext_resource type="Texture2D" uid="uid://dx0dcrxo8vyq5" path="res://assets/Cartoon River Valley Game Landscape.png" id="6_aug50"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
+size = Vector2(1665.2362, 10.566528)
+
+[node name="Game" type="Node2D" unique_id=644649877]
+script = ExtResource("1_78awf")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1375485051]
+z_index = -10
+position = Vector2(960, 540)
+scale = Vector2(1.165, 1.162)
+texture = ExtResource("6_aug50")
+
+[node name="Tree" parent="." unique_id=1555952911 instance=ExtResource("2_s0nni")]
+z_index = 1
+position = Vector2(210, 786)
+scale = Vector2(0.5, 0.5)
+fruit_scene = ExtResource("3_s0nni")
+max_fruits = 100
+
+[node name="Barrel" parent="." unique_id=700381046 instance=ExtResource("3_aug50")]
+z_index = 2
+position = Vector2(546, 803)
+capacity = 5
+
+[node name="Still" parent="." unique_id=188314992 instance=ExtResource("4_kiw3p")]
+z_index = 2
+position = Vector2(847, 843)
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=342876602]
+z_index = 1
+position = Vector2(236, 411)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=791641938]
+z_index = -10
+position = Vector2(722.00006, 568.845)
+scale = Vector2(1.165, 1.165)
+shape = SubResource("RectangleShape2D_kvl6k")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=152119672]
+
+[node name="BottleCounterLabel" type="Label" parent="UI" unique_id=1834480106]
+offset_left = 514.0
+offset_top = 338.0
+offset_right = 554.0
+offset_bottom = 361.0

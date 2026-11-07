@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://c4mii5kgvtpe2"]
+
+[ext_resource type="Script" uid="uid://df7v8c4x7ief6" path="res://scripts/Still.gd" id="1_aul4i"]
+[ext_resource type="PackedScene" uid="uid://brof2ymh8bb3s" path="res://scenes/Bottle.tscn" id="2_dab3r"]
+[ext_resource type="Texture2D" uid="uid://bxqv6elf3hx7x" path="res://assets/furnace_fire_spritesheet.png" id="4_177eh"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dab3r"]
+load_path = "res://.godot/imported/Steampunk Copper Distillation Apparatus.png-b4d2a40de7a49491510c0fb436dfea54.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cf84v"]
+atlas = ExtResource("4_177eh")
+region = Rect2(0, 0, 384, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6ci1"]
+atlas = ExtResource("4_177eh")
+region = Rect2(384, 0, 384, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gu4qu"]
+atlas = ExtResource("4_177eh")
+region = Rect2(768, 0, 384, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uoyy3"]
+atlas = ExtResource("4_177eh")
+region = Rect2(1152, 0, 384, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v2ll6"]
+atlas = ExtResource("4_177eh")
+region = Rect2(0, 512, 384, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cnbb"]
+atlas = ExtResource("4_177eh")
+region = Rect2(384, 512, 384, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_impli"]
+atlas = ExtResource("4_177eh")
+region = Rect2(768, 512, 384, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3j1ff"]
+atlas = ExtResource("4_177eh")
+region = Rect2(1152, 512, 384, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_losng"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cf84v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6ci1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gu4qu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uoyy3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v2ll6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1cnbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_impli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3j1ff")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Still" type="Node2D" unique_id=188314992]
+script = ExtResource("1_aul4i")
+bottle_scene = ExtResource("2_dab3r")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1550959470]
+scale = Vector2(0.3, 0.3)
+texture = SubResource("CompressedTexture2D_dab3r")
+
+[node name="BottleSpawnPoint" type="Marker2D" parent="." unique_id=2088601632]
+z_index = 2
+
+[node name="FurnaceFire" type="AnimatedSprite2D" parent="." unique_id=1620229000]
+visible = false
+position = Vector2(-37.000004, 74.00001)
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_losng")
+frame_progress = 0.12181539

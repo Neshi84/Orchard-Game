@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://brof2ymh8bb3s"]
+
+[ext_resource type="Script" uid="uid://udpopj1pwkia" path="res://scripts/Bottle.gd" id="1_ki0et"]
+[ext_resource type="Texture2D" uid="uid://cxbpnjv3k2abs" path="res://assets/Cartoon Apple Elixir Bottle.png" id="2_ki0et"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
+size = Vector2(21, 62)
+
+[node name="Bottle" type="RigidBody2D" unique_id=1724554050]
+z_index = 1
+script = ExtResource("1_ki0et")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=494507302]
+z_index = 1
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_ki0et")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1564379654]
+z_index = 1
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_kvl6k")

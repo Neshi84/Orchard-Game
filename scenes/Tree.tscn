@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://ccab3hivigpn5"]
+
+[ext_resource type="Script" uid="uid://dtup6av5ybknr" path="res://scripts/Tree.gd" id="1_omb14"]
+[ext_resource type="Texture2D" uid="uid://cwsu7ys6futp4" path="res://assets/tree.png" id="2_omb14"]
+
+[node name="Tree" type="Node2D" unique_id=1555952911]
+script = ExtResource("1_omb14")
+spawn_interval_min = 1.0
+spawn_interval_max = 3.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1412042389]
+texture = ExtResource("2_omb14")
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=718689432]
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPoints" unique_id=995627838]
+position = Vector2(148, -158)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPoints" unique_id=1878980639]
+position = Vector2(-146, -95)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnPoints" unique_id=1400572469]
+position = Vector2(293, -36)
+
+[node name="Marker2D4" type="Marker2D" parent="SpawnPoints" unique_id=1753109443]
+position = Vector2(-254, -40)
+
+[node name="Marker2D5" type="Marker2D" parent="SpawnPoints" unique_id=116357339]
+position = Vector2(-121, -193)
+
+[node name="Marker2D6" type="Marker2D" parent="SpawnPoints" unique_id=1187215286]
+position = Vector2(-13, -260)
+
+[node name="Marker2D7" type="Marker2D" parent="SpawnPoints" unique_id=1343357080]
+position = Vector2(104, -93)
+
+[node name="Marker2D8" type="Marker2D" parent="SpawnPoints" unique_id=1954267875]
+position = Vector2(-42, -133)
+
+[node name="Marker2D9" type="Marker2D" parent="SpawnPoints" unique_id=762589152]
+position = Vector2(87, -217)
