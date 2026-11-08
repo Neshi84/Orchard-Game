@@ -20,8 +20,10 @@ enum State { ACCEPTING, FERMENTING, READY }
 var state: State = State.ACCEPTING
 var current_amount: int = 0
 var accept_batch: Callable
+var _shake_tween: Tween
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var _sprite_rest_position: Vector2 = sprite.position
 @onready var label: Label = get_node_or_null("Label")
 
 func _ready() -> void:
@@ -36,9 +38,20 @@ func add_fruit() -> bool:
 		return false
 	current_amount += 1
 	_update_label()
+	_shake()
 	if current_amount >= capacity:
 		_start_fermenting()
 	return true
+
+func _shake() -> void:
+	if _shake_tween and _shake_tween.is_running():
+		_shake_tween.kill()
+
+	_shake_tween = create_tween().set_trans(Tween.TRANS_SINE)
+	_shake_tween.tween_property(sprite, "position", _sprite_rest_position + Vector2(-6, 0), 0.04)
+	_shake_tween.tween_property(sprite, "position", _sprite_rest_position + Vector2(5, 0), 0.06)
+	_shake_tween.tween_property(sprite, "position", _sprite_rest_position + Vector2(-3, 0), 0.06)
+	_shake_tween.tween_property(sprite, "position", _sprite_rest_position, 0.06)
 
 func _update_label() -> void:
 	if label:
