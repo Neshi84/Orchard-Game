@@ -9,8 +9,9 @@ void fragment() {
 	vec4 glass = COLOR;
 	float glass_hue = purple_glass ? min(glass.r, glass.b) - glass.g : glass.g - max(glass.r, glass.b);
 	float glass_mask = smoothstep(0.02, 0.16, glass_hue);
-	// Keep the plum illustration on the paper label opaque during the fill.
-	if (purple_glass && UV.x > 0.38 && UV.x < 0.64 && UV.y > 0.54 && UV.y < 0.8) {
+	// Preserve the label during filling and the original plum artwork once full.
+	bool plum_label = UV.x > 0.38 && UV.x < 0.64 && UV.y > 0.54 && UV.y < 0.8;
+	if (purple_glass && (fill_level >= 1.0 || plum_label)) {
 		glass_mask = 0.0;
 	}
 	float lightness = dot(glass.rgb, vec3(0.299, 0.587, 0.114));

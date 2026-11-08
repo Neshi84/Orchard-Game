@@ -48,6 +48,7 @@ func _fill_next_bottle(fruit_kind: StringName) -> void:
     var bottle = _batch_bottle_scene.instantiate()
     bottle_spawn_point.add_child(bottle)
     bottle.collected.connect(_on_bottle_collected.bind(fruit_kind))
+    stream.offset_bottom = to_local(bottle.mouth.global_position).y
     _start_effects()
 
     var fill := create_tween()

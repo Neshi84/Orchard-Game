@@ -3,6 +3,7 @@ extends Area2D
 signal collected
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var mouth: Marker2D = $Mouth
 
 func _ready() -> void:
 	input_event.connect(_on_input_event)

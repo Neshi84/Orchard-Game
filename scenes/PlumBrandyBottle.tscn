@@ -13,16 +13,19 @@ shader_parameter/fill_range = Vector2(0.93, 0.42)
 shader_parameter/cork_cutoff = 0.205
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_plum"]
-size = Vector2(36, 50)
+size = Vector2(36, 44)
 
 [node name="PlumBrandyBottle" instance=ExtResource("1_bottle")]
 
 [node name="Sprite2D" parent="." index="0"]
-position = Vector2(0, -3.4)
-scale = Vector2(0.045, 0.066)
+position = Vector2(0, 7.4)
+scale = Vector2(0.047, 0.047)
 texture = ExtResource("2_plum")
 material = SubResource("ShaderMaterial_plum_fill")
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, 8)
+position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_plum")
+
+[node name="Mouth" parent="." index="2"]
+position = Vector2(0, -8.5)
