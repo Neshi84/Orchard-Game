@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/Fox.gd" id="1_fox"]
+[ext_resource type="Texture2D" path="res://assets/fox.png" id="2_fox"]
+
+[node name="Fox" type="Node2D"]
+z_index = 5
+script = ExtResource("1_fox")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -24)
+scale = Vector2(0.078, 0.078)
+texture = ExtResource("2_fox")

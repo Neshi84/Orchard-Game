@@ -6,6 +6,7 @@ extends Node2D
 @export var pig_scene: PackedScene
 @export var pig_visit_min: float = 18.0
 @export var pig_visit_max: float = 34.0
+@export var fox_scene: PackedScene
 @export var hedgehog_scene: PackedScene
 
 @onready var trees: Array = [$Tree, $PlumTree, $PearTree]
@@ -13,6 +14,11 @@ extends Node2D
 @onready var still = $Still
 @onready var pig_entrance: Marker2D = $PigEntrance
 @onready var pig_visit_timer: Timer = $PigVisitTimer
+@onready var squirrel: Sprite2D = $Squirrel
+@onready var squirrel_peek_timer: Timer = $SquirrelPeekTimer
+@onready var fox_entrance: Marker2D = $FoxEntrance
+@onready var fox_landing: Marker2D = $FoxLanding
+@onready var fox_visit_timer: Timer = $FoxVisitTimer
 @onready var hedgehog_entrance: Marker2D = $HedgehogEntrance
 @onready var hedgehog_visit_timer: Timer = $HedgehogVisitTimer
 @onready var bottle_counter_labels: Dictionary[StringName, Label] = {
@@ -31,6 +37,10 @@ func _ready() -> void:
 	still.bottle_collected.connect(_on_bottle_collected)
 	pig_visit_timer.timeout.connect(_on_pig_visit_timeout)
 	_schedule_pig_visit()
+	squirrel_peek_timer.timeout.connect(_on_squirrel_peek_timeout)
+	_schedule_squirrel_peek()
+	fox_visit_timer.timeout.connect(_on_fox_visit_timeout)
+	_schedule_fox_visit()
 	hedgehog_visit_timer.timeout.connect(_on_hedgehog_visit_timeout)
 	_schedule_hedgehog_visit()
 
@@ -48,6 +58,43 @@ func _on_pig_visit_timeout() -> void:
 		await pig.visit(fallen_fruits)
 		pig.queue_free()
 	_schedule_pig_visit()
+
+func _schedule_squirrel_peek() -> void:
+	squirrel_peek_timer.start(randf_range(9.0, 20.0))
+
+func _on_squirrel_peek_timeout() -> void:
+	var perch: Marker2D = trees.pick_random().get_node("SquirrelPerch")
+	var hidden_position := perch.global_position + Vector2(0, 58)
+	var peek_position := perch.global_position + Vector2(0, -14)
+	squirrel.global_position = hidden_position
+	squirrel.rotation_degrees = 0.0
+	squirrel.show()
+
+	var peek := create_tween().set_trans(Tween.TRANS_QUAD)
+	peek.tween_property(squirrel, "global_position", peek_position, 0.28).set_ease(Tween.EASE_OUT)
+	peek.tween_interval(0.3)
+	peek.tween_property(squirrel, "rotation_degrees", randf_range(-7.0, 7.0), 0.24)
+	peek.tween_interval(randf_range(0.45, 1.15))
+	peek.tween_property(squirrel, "global_position", hidden_position, 0.24).set_ease(Tween.EASE_IN)
+	await peek.finished
+	squirrel.hide()
+	_schedule_squirrel_peek()
+
+func _schedule_fox_visit() -> void:
+	fox_visit_timer.start(randf_range(22.0, 40.0))
+
+func _on_fox_visit_timeout() -> void:
+	var perches: Array[Marker2D] = []
+	for barrel in barrels:
+		perches.append(barrel.get_node("FoxPerch"))
+
+	var fox = fox_scene.instantiate()
+	fox.position = fox_entrance.position
+	add_child(fox)
+	var exit_x := get_viewport().get_visible_rect().end.x + 100.0
+	await fox.cross_orchard(perches, fox_landing, exit_x)
+	fox.queue_free()
+	_schedule_fox_visit()
 
 func _schedule_hedgehog_visit() -> void:
 	hedgehog_visit_timer.start(randf_range(14.0, 28.0))

@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" path="res://scenes/PearTree.tscn" id="11_pear_tree"]
 [ext_resource type="Texture2D" path="res://assets/pear_schnapps_bottle.png" id="12_pear_bottle"]
 [ext_resource type="PackedScene" path="res://scenes/Pig.tscn" id="13_pig"]
+[ext_resource type="Texture2D" path="res://assets/squirrel_head.png" id="14_squirrel"]
+[ext_resource type="PackedScene" path="res://scenes/Fox.tscn" id="15_fox"]
 [ext_resource type="PackedScene" path="res://scenes/Hedgehog.tscn" id="16_hedgehog"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
@@ -30,6 +32,7 @@ font_color = Color(0.23, 0.1, 0.03, 1)
 [node name="Game" type="Node2D" unique_id=644649877]
 script = ExtResource("1_78awf")
 pig_scene = ExtResource("13_pig")
+fox_scene = ExtResource("15_fox")
 hedgehog_scene = ExtResource("16_hedgehog")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1375485051]
@@ -88,6 +91,23 @@ shape = SubResource("RectangleShape2D_kvl6k")
 position = Vector2(-100, 988)
 
 [node name="PigVisitTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Squirrel" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.066, 0.066)
+texture = ExtResource("14_squirrel")
+
+[node name="SquirrelPeekTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="FoxEntrance" type="Marker2D" parent="."]
+position = Vector2(-100, 1000)
+
+[node name="FoxLanding" type="Marker2D" parent="."]
+position = Vector2(1425, 1000)
+
+[node name="FoxVisitTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="HedgehogEntrance" type="Marker2D" parent="."]

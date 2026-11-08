@@ -56,3 +56,6 @@ shape = SubResource("RectangleShape2D_kvl6k")
 stream = ExtResource("3_tumble")
 volume_db = -9.0
 max_polyphony = 2
+
+[node name="FoxPerch" type="Marker2D" parent="."]
+position = Vector2(-66, 51)

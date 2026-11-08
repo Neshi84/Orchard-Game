@@ -39,3 +39,6 @@ position = Vector2(24, -24)
 
 [node name="Marker2D9" parent="SpawnPoints" index="8"]
 position = Vector2(148, 8)
+
+[node name="SquirrelPerch" parent="." index="2"]
+position = Vector2(-8, -366)

@@ -39,3 +39,6 @@ position = Vector2(-42, -133)
 
 [node name="Marker2D9" type="Marker2D" parent="SpawnPoints" unique_id=762589152]
 position = Vector2(87, -217)
+
+[node name="SquirrelPerch" type="Marker2D" parent="."]
+position = Vector2(24, -348)
