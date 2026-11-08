@@ -7,7 +7,7 @@ extends Area2D
 ##   └── CollisionShape2D
 
 signal fell                # emitted the instant it lands on the ground
-signal collected(fruit)    # emitted when the player clicks it while fresh
+signal collected(fruit)    # emitted when the barrel accepts a fallen fruit
 signal rotted_away         # emitted right before it queue_frees from rotting
 
 enum State { GROWING, RIPE, FALLING, FRESH_ON_GROUND, ROTTEN, GONE }
@@ -23,6 +23,7 @@ enum State { GROWING, RIPE, FALLING, FRESH_ON_GROUND, ROTTEN, GONE }
 
 var state: State = State.GROWING
 var spawn_point: Node2D  # set by Tree.gd right after instancing
+var accept_collection: Callable
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = $CollisionShape2D
@@ -84,8 +85,13 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		_get_collected()
 
 func _get_collected() -> void:
+	if state != State.FRESH_ON_GROUND and state != State.ROTTEN:
+		return
+	if accept_collection.is_valid() and not accept_collection.call():
+		return
 	state = State.GONE
-	collision.disabled = true
+	input_pickable = false
+	collision.set_deferred("disabled", true)
 	collected.emit(self)
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.15)

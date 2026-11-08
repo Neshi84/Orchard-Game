@@ -8,7 +8,7 @@ extends Node2D
 ##       ├── Marker2D
 ##       └── ...
 
-signal fruit_collected(fruit)  # relayed upward so Game.gd can hand it to the Barrel
+signal fruit_collected(fruit)
 
 @export var fruit_scene: PackedScene
 @export var max_fruits: int = 5
@@ -17,6 +17,7 @@ signal fruit_collected(fruit)  # relayed upward so Game.gd can hand it to the Ba
 
 var active_fruits: Array = []
 var spawn_points: Array = []
+var accept_fruit: Callable
 
 func _ready() -> void:
 	if has_node("SpawnPoints"):
@@ -43,6 +44,7 @@ func _try_spawn_fruit() -> void:
 	point.set_meta("occupied", true)
 
 	var fruit = fruit_scene.instantiate()
+	fruit.accept_collection = accept_fruit
 	add_child(fruit)
 	fruit.global_position = point.global_position
 	fruit.spawn_point = point
@@ -62,4 +64,5 @@ func _on_fruit_gone(fruit) -> void:
 	active_fruits.erase(fruit)
 
 func _on_fruit_collected(fruit) -> void:
+	_on_fruit_gone(fruit)
 	fruit_collected.emit(fruit)

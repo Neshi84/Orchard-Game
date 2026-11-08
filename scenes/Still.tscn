@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://brof2ymh8bb3s" path="res://scenes/Bottle.tscn" id="2_dab3r"]
 [ext_resource type="Texture2D" uid="uid://bxqv6elf3hx7x" path="res://assets/furnace_fire_spritesheet.png" id="4_177eh"]
 [ext_resource type="Texture2D" uid="uid://lcqw7eqaktil" path="res://assets/godot_gauge_spritesheet.png" id="4_cf84v"]
+[ext_resource type="Texture2D" path="res://assets/bottle_stand.png" id="5_stand"]
+[ext_resource type="Shader" path="res://assets/still_pour.gdshader" id="6_pour"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dab3r"]
 load_path = "res://.godot/imported/Steampunk Copper Distillation Apparatus.png-b4d2a40de7a49491510c0fb436dfea54.ctex"
@@ -148,24 +150,42 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
-[sub_resource type="Gradient" id="Gradient_steam_fade"]
-offsets = PackedFloat32Array(0, 0.15, 0.55, 1)
-colors = PackedColorArray(1, 1, 1, 0.45, 1, 1, 1, 0.85, 1, 1, 1, 0.6, 1, 1, 1, 0)
-
 [sub_resource type="Curve" id="Curve_steam_growth"]
 _data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
+[sub_resource type="Gradient" id="Gradient_steam_fade"]
+offsets = PackedFloat32Array(0, 0.15, 0.55, 1)
+colors = PackedColorArray(1, 1, 1, 0.45, 1, 1, 1, 0.85, 1, 1, 1, 0.6, 1, 1, 1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pour"]
+shader = ExtResource("6_pour")
+
 [node name="Still" type="Node2D" unique_id=188314992]
 script = ExtResource("1_aul4i")
 bottle_scene = ExtResource("2_dab3r")
+
+[node name="BottleStand" type="Sprite2D" parent="."]
+position = Vector2(179, 109)
+scale = Vector2(0.046, 0.046)
+texture = ExtResource("5_stand")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1550959470]
 scale = Vector2(0.3, 0.3)
 texture = SubResource("CompressedTexture2D_dab3r")
 
 [node name="BottleSpawnPoint" type="Marker2D" parent="." unique_id=2088601632]
+position = Vector2(168, 67)
+
+[node name="PourStream" type="ColorRect" parent="."]
+visible = false
 z_index = 2
+material = SubResource("ShaderMaterial_pour")
+offset_left = 163.5
+offset_top = 20.0
+offset_right = 172.5
+offset_bottom = 41.5
+mouse_filter = 2
 
 [node name="FurnaceFire" type="AnimatedSprite2D" parent="." unique_id=1620229000]
 visible = false
@@ -180,14 +200,14 @@ position = Vector2(-5, -8)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_sdlpt")
 
-[node name="BoilerJointSteam" type="CPUParticles2D" parent="."]
+[node name="BoilerJointSteam" type="CPUParticles2D" parent="." unique_id=1517248436]
 visible = false
 position = Vector2(-49, -96)
 emitting = false
 amount = 18
+texture = SubResource("GradientTexture2D_steam")
 lifetime = 1.2
 randomness = 0.65
-texture = SubResource("GradientTexture2D_steam")
 direction = Vector2(-0.65, -1)
 spread = 23.0
 gravity = Vector2(0, -22)
@@ -198,14 +218,14 @@ scale_amount_max = 0.87
 scale_amount_curve = SubResource("Curve_steam_growth")
 color_ramp = SubResource("Gradient_steam_fade")
 
-[node name="CondenserJointSteam" type="CPUParticles2D" parent="."]
+[node name="CondenserJointSteam" type="CPUParticles2D" parent="." unique_id=1255908842]
 visible = false
 position = Vector2(122, -96)
 emitting = false
 amount = 18
+texture = SubResource("GradientTexture2D_steam")
 lifetime = 1.2
 randomness = 0.65
-texture = SubResource("GradientTexture2D_steam")
 direction = Vector2(0.65, -1)
 spread = 23.0
 gravity = Vector2(0, -22)

@@ -2,16 +2,27 @@
 
 [ext_resource type="Script" uid="uid://udpopj1pwkia" path="res://scripts/Bottle.gd" id="1_ki0et"]
 [ext_resource type="Texture2D" uid="uid://cxbpnjv3k2abs" path="res://assets/Cartoon Apple Elixir Bottle.png" id="2_ki0et"]
+[ext_resource type="Shader" path="res://assets/bottle_fill.gdshader" id="3_fill"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fill"]
+resource_local_to_scene = true
+shader = ExtResource("3_fill")
+shader_parameter/fill_level = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
 size = Vector2(21, 62)
 
-[node name="Bottle" type="RigidBody2D" unique_id=1724554050]
+[node name="Bottle" type="Area2D" unique_id=1724554050]
 z_index = 1
+collision_mask = 0
+input_pickable = false
+monitoring = false
+monitorable = false
 script = ExtResource("1_ki0et")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=494507302]
 z_index = 1
+material = SubResource("ShaderMaterial_fill")
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_ki0et")
 

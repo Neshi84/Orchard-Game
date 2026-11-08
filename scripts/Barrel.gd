@@ -19,6 +19,7 @@ enum State { ACCEPTING, FERMENTING, READY }
 
 var state: State = State.ACCEPTING
 var current_amount: int = 0
+var accept_batch: Callable
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var label: Label = get_node_or_null("Label")
@@ -67,13 +68,16 @@ func _finish_fermenting() -> void:
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if state == State.READY:
-			_empty_into_still()
+		_empty_into_still()
 
 func _empty_into_still() -> void:
+	if state != State.READY:
+		return
 	var amount := current_amount
-	emptied.emit(amount)
+	if accept_batch.is_valid() and not accept_batch.call(amount):
+		return
 	current_amount = 0
 	state = State.ACCEPTING
 	sprite.modulate = Color.WHITE
 	_update_label()
+	emptied.emit(amount)
