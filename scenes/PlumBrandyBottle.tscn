@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Bottle.tscn" id="1_bottle"]
+[ext_resource type="Texture2D" path="res://assets/plum_brandy_bottle.png" id="2_plum"]
+[ext_resource type="Shader" path="res://assets/bottle_fill.gdshader" id="3_fill"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_plum_fill"]
+resource_local_to_scene = true
+shader = ExtResource("3_fill")
+shader_parameter/fill_level = 0.0
+shader_parameter/purple_glass = true
+shader_parameter/fill_range = Vector2(0.93, 0.42)
+shader_parameter/cork_cutoff = 0.205
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plum"]
+size = Vector2(36, 50)
+
+[node name="PlumBrandyBottle" instance=ExtResource("1_bottle")]
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, -3.4)
+scale = Vector2(0.045, 0.066)
+texture = ExtResource("2_plum")
+material = SubResource("ShaderMaterial_plum_fill")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_plum")

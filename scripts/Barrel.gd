@@ -108,7 +108,7 @@ func _empty_into_still() -> void:
 	if state != State.READY:
 		return
 	var amount := current_amount
-	if accept_batch.is_valid() and not accept_batch.call(amount):
+	if accept_batch.is_valid() and not accept_batch.call(amount, _batch_fruit_kind):
 		return
 	current_amount = 0
 	_batch_fruit_kind = &""
