@@ -166,8 +166,8 @@ script = ExtResource("1_aul4i")
 bottle_scene = ExtResource("2_dab3r")
 
 [node name="BottleStand" type="Sprite2D" parent="."]
-position = Vector2(179, 109)
-scale = Vector2(0.046, 0.046)
+position = Vector2(185.5, 111.5)
+scale = Vector2(0.058, 0.058)
 texture = ExtResource("5_stand")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1550959470]
