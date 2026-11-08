@@ -9,11 +9,34 @@ size = Vector2(85, 95)
 [node name="Barrel" type="Area2D" unique_id=700381046]
 script = ExtResource("1_yuusr")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1032205269]
+[node name="Visual" type="Node2D" parent="." unique_id=1032205269]
 position = Vector2(-66, 96.00001)
 scale = Vector2(0.3, 0.3)
+
+[node name="Rim" type="Polygon2D" parent="Visual"]
+color = Color(0.28, 0.12, 0.035, 1)
+offset = Vector2(-177, -219)
+polygon = PackedVector2Array(56, 115, 68, 103, 106, 96, 156, 93, 204, 93, 253, 98, 287, 106, 302, 115, 277, 128, 229, 136, 177, 139, 119, 135, 76, 126)
+
+[node name="Opening" type="Polygon2D" parent="Visual"]
+color = Color(0.10, 0.047, 0.023, 1)
+offset = Vector2(-177, -219)
+polygon = PackedVector2Array(70, 115, 85, 107, 125, 101, 177, 99, 229, 101, 269, 107, 288, 115, 263, 124, 225, 130, 177, 133, 130, 130, 91, 124)
+
+[node name="Body" type="Polygon2D" parent="Visual"]
+offset = Vector2(-177, -219)
 texture = ExtResource("2_58trb")
-region_rect = Rect2(1, -49, 479, 648)
+polygon = PackedVector2Array(0, 114, 56, 114, 80, 124, 121, 131, 177, 135, 231, 131, 273, 123, 300, 114, 354, 114, 354, 438, 0, 438)
+uv = PackedVector2Array(0, 114, 56, 114, 80, 124, 121, 131, 177, 135, 231, 131, 273, 123, 300, 114, 354, 114, 354, 438, 0, 438)
+
+[node name="Lid" type="Node2D" parent="Visual"]
+position = Vector2(0, -96)
+
+[node name="Artwork" type="Polygon2D" parent="Visual/Lid"]
+offset = Vector2(-177, -123)
+texture = ExtResource("2_58trb")
+polygon = PackedVector2Array(0, 0, 354, 0, 354, 114, 300, 114, 273, 123, 231, 131, 177, 135, 121, 131, 80, 124, 56, 114, 0, 114)
+uv = PackedVector2Array(0, 0, 354, 0, 354, 114, 300, 114, 273, 123, 231, 131, 177, 135, 121, 131, 80, 124, 56, 114, 0, 114)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1517555094]
 position = Vector2(-66.5, 106.5)

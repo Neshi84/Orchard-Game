@@ -2,7 +2,7 @@ extends Area2D
 
 ## Node hierarchy expected:
 ##   Barrel (Area2D)
-##   ├── Sprite2D
+##   ├── Visual (Node2D)
 ##   ├── CollisionShape2D
 ##   └── Label            -- optional, shows "current / capacity"
 
@@ -21,9 +21,14 @@ var state: State = State.ACCEPTING
 var current_amount: int = 0
 var accept_batch: Callable
 var _shake_tween: Tween
+var _pulse_tween: Tween
+var _lid_tween: Tween
 
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var _sprite_rest_position: Vector2 = sprite.position
+@onready var visual: Node2D = $Visual
+@onready var lid: Node2D = $Visual/Lid
+@onready var _visual_rest_position: Vector2 = visual.position
+@onready var _visual_rest_scale: Vector2 = visual.scale
+@onready var _lid_rest_y: float = lid.position.y
 @onready var label: Label = get_node_or_null("Label")
 
 func _ready() -> void:
@@ -48,10 +53,10 @@ func _shake() -> void:
 		_shake_tween.kill()
 
 	_shake_tween = create_tween().set_trans(Tween.TRANS_SINE)
-	_shake_tween.tween_property(sprite, "position", _sprite_rest_position + Vector2(-6, 0), 0.04)
-	_shake_tween.tween_property(sprite, "position", _sprite_rest_position + Vector2(5, 0), 0.06)
-	_shake_tween.tween_property(sprite, "position", _sprite_rest_position + Vector2(-3, 0), 0.06)
-	_shake_tween.tween_property(sprite, "position", _sprite_rest_position, 0.06)
+	_shake_tween.tween_property(visual, "position", _visual_rest_position + Vector2(-6, 0), 0.04)
+	_shake_tween.tween_property(visual, "position", _visual_rest_position + Vector2(5, 0), 0.06)
+	_shake_tween.tween_property(visual, "position", _visual_rest_position + Vector2(-3, 0), 0.06)
+	_shake_tween.tween_property(visual, "position", _visual_rest_position, 0.06)
 
 func _update_label() -> void:
 	if label:
@@ -60,23 +65,33 @@ func _update_label() -> void:
 func _start_fermenting() -> void:
 	state = State.FERMENTING
 	became_full.emit()
-	_pulse_loop()
+	_pulse_tween = create_tween().set_loops().set_trans(Tween.TRANS_SINE)
+	_pulse_tween.tween_property(visual, "scale", _visual_rest_scale * pulse_scale, pulse_speed)
+	_pulse_tween.tween_property(visual, "scale", _visual_rest_scale, pulse_speed)
+	_rock_lid()
 	await get_tree().create_timer(ferment_time).timeout
 	if state == State.FERMENTING:
 		_finish_fermenting()
 
-func _pulse_loop() -> void:
-	var base_scale: Vector2 = sprite.scale
-	while state == State.FERMENTING:
-		var tween := create_tween()
-		tween.tween_property(sprite, "scale", base_scale * pulse_scale, pulse_speed).set_trans(Tween.TRANS_SINE)
-		tween.tween_property(sprite, "scale", base_scale, pulse_speed).set_trans(Tween.TRANS_SINE)
-		await tween.finished
+func _rock_lid() -> void:
+	_lid_tween = create_tween().set_loops().set_trans(Tween.TRANS_SINE)
+	_lid_tween.tween_method(_set_lid_tilt, 0.0, -1.0, 0.14)
+	_lid_tween.tween_method(_set_lid_tilt, -1.0, 0.0, 0.20)
+	_lid_tween.tween_method(_set_lid_tilt, 0.0, 1.0, 0.14)
+	_lid_tween.tween_method(_set_lid_tilt, 1.0, 0.0, 0.20)
+	_lid_tween.tween_interval(0.09)
+
+func _set_lid_tilt(tilt: float) -> void:
+	lid.rotation_degrees = tilt * 8.0
+	lid.position.y = _lid_rest_y - absf(tilt) * 19.0
 
 func _finish_fermenting() -> void:
 	state = State.READY
-	sprite.scale = Vector2.ONE
-	sprite.modulate = Color(1.0, 0.85, 0.4)  # golden glow = "ready to empty"
+	_lid_tween.kill()
+	_pulse_tween.kill()
+	_set_lid_tilt(0.0)
+	visual.scale = _visual_rest_scale
+	visual.modulate = Color(1.0, 0.85, 0.4)  # golden glow = "ready to empty"
 	ready_to_empty.emit()
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
@@ -91,6 +106,6 @@ func _empty_into_still() -> void:
 		return
 	current_amount = 0
 	state = State.ACCEPTING
-	sprite.modulate = Color.WHITE
+	visual.modulate = Color.WHITE
 	_update_label()
 	emptied.emit(amount)
