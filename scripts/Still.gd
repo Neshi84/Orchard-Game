@@ -19,6 +19,7 @@ enum State { IDLE, DISTILLING }
 
 var state: State = State.IDLE
 
+@onready var gauge: AnimatedSprite2D = $Gauge
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var bottle_spawn_point: Node2D = get_node_or_null("BottleSpawnPoint")
 
@@ -29,7 +30,8 @@ func start_distilling(fruit_amount: int) -> bool:
 
     state = State.DISTILLING
     started_distilling.emit()
-
+    
+    gauge.play("default")
     # Start furnace fire
     furnace_fire.visible = true
     furnace_fire.play("default")
@@ -44,7 +46,8 @@ func start_distilling(fruit_amount: int) -> bool:
     furnace_fire.stop()
     furnace_fire.frame = 0
     furnace_fire.visible = false
-
+    gauge.stop()
+    gauge.frame = 0
     _finish_distilling(bottle_count)
 
     return true

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://df7v8c4x7ief6" path="res://scripts/Still.gd" id="1_aul4i"]
 [ext_resource type="PackedScene" uid="uid://brof2ymh8bb3s" path="res://scenes/Bottle.tscn" id="2_dab3r"]
 [ext_resource type="Texture2D" uid="uid://bxqv6elf3hx7x" path="res://assets/furnace_fire_spritesheet.png" id="4_177eh"]
+[ext_resource type="Texture2D" uid="uid://lcqw7eqaktil" path="res://assets/godot_gauge_spritesheet.png" id="4_cf84v"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dab3r"]
 load_path = "res://.godot/imported/Steampunk Copper Distillation Apparatus.png-b4d2a40de7a49491510c0fb436dfea54.ctex"
@@ -71,6 +72,70 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l2vd"]
+atlas = ExtResource("4_cf84v")
+region = Rect2(0, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5wwq"]
+atlas = ExtResource("4_cf84v")
+region = Rect2(160, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6plfg"]
+atlas = ExtResource("4_cf84v")
+region = Rect2(320, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4ch2"]
+atlas = ExtResource("4_cf84v")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gqyq2"]
+atlas = ExtResource("4_cf84v")
+region = Rect2(0, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmky8"]
+atlas = ExtResource("4_cf84v")
+region = Rect2(160, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tkrqr"]
+atlas = ExtResource("4_cf84v")
+region = Rect2(320, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3iy2"]
+atlas = ExtResource("4_cf84v")
+region = Rect2(480, 160, 160, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sdlpt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l2vd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c5wwq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6plfg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4ch2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gqyq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmky8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tkrqr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3iy2")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 6.0
+}]
+
 [node name="Still" type="Node2D" unique_id=188314992]
 script = ExtResource("1_aul4i")
 bottle_scene = ExtResource("2_dab3r")
@@ -87,4 +152,10 @@ visible = false
 position = Vector2(-37.000004, 74.00001)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_losng")
-frame_progress = 0.12181539
+frame_progress = 0.8443962
+
+[node name="Gauge" type="AnimatedSprite2D" parent="." unique_id=1571759785]
+z_index = 1
+position = Vector2(-5, -8)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_sdlpt")
