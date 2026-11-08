@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Bottle.tscn" id="1_bottle"]
+[ext_resource type="Texture2D" path="res://assets/pear_schnapps_bottle.png" id="2_pear"]
+[ext_resource type="Shader" path="res://assets/bottle_fill.gdshader" id="3_fill"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pear_fill"]
+resource_local_to_scene = true
+shader = ExtResource("3_fill")
+shader_parameter/fill_level = 0.0
+shader_parameter/gold_glass = true
+shader_parameter/gold_label_ellipse = Vector4(0.496, 0.676, 0.239, 0.191)
+shader_parameter/fill_range = Vector2(0.93, 0.39)
+shader_parameter/cork_cutoff = 0.181
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pear"]
+size = Vector2(33, 60)
+
+[node name="PearSchnappsBottle" instance=ExtResource("1_bottle")]
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, 1.65)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_pear")
+material = SubResource("ShaderMaterial_pear_fill")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_pear")
+
+[node name="Mouth" parent="." index="2"]
+position = Vector2(0, -20)

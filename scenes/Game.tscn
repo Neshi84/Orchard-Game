@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cxbpnjv3k2abs" path="res://assets/Cartoon Apple Elixir Bottle.png" id="8_bottle"]
 [ext_resource type="PackedScene" path="res://scenes/PlumTree.tscn" id="9_plum_tree"]
 [ext_resource type="Texture2D" path="res://assets/plum_brandy_bottle.png" id="10_plum_bottle"]
+[ext_resource type="PackedScene" path="res://scenes/PearTree.tscn" id="11_pear_tree"]
+[ext_resource type="Texture2D" path="res://assets/pear_schnapps_bottle.png" id="12_pear_bottle"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
 size = Vector2(1665.2362, 10.566528)
@@ -20,7 +22,7 @@ font_weight = 700
 
 [sub_resource type="LabelSettings" id="LabelSettings_bottle_count"]
 font = SubResource("SystemFont_notice_board")
-font_size = 36
+font_size = 32
 font_color = Color(0.23, 0.1, 0.03, 1)
 
 [node name="Game" type="Node2D" unique_id=644649877]
@@ -44,14 +46,29 @@ z_index = 1
 position = Vector2(540, 786)
 scale = Vector2(0.5, 0.5)
 
+[node name="PearTree" parent="." instance=ExtResource("11_pear_tree")]
+z_index = 1
+position = Vector2(830, 786)
+scale = Vector2(0.5, 0.5)
+
 [node name="Barrel" parent="." unique_id=700381046 instance=ExtResource("3_aug50")]
 z_index = 2
-position = Vector2(846, 803)
+position = Vector2(1116, 803)
+capacity = 5
+
+[node name="Barrel2" parent="." instance=ExtResource("3_aug50")]
+z_index = 2
+position = Vector2(1236, 803)
+capacity = 5
+
+[node name="Barrel3" parent="." instance=ExtResource("3_aug50")]
+z_index = 2
+position = Vector2(1356, 803)
 capacity = 5
 
 [node name="Still" parent="." unique_id=188314992 instance=ExtResource("4_kiw3p")]
 z_index = 2
-position = Vector2(1147, 843)
+position = Vector2(1487, 843)
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=342876602]
 z_index = 1
@@ -69,10 +86,10 @@ shape = SubResource("RectangleShape2D_kvl6k")
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -388.0
+offset_left = -478.0
 offset_top = 24.0
 offset_right = -28.0
-offset_bottom = 204.0
+offset_bottom = 249.0
 grow_horizontal = 0
 mouse_filter = 2
 texture = ExtResource("7_notice_board")
@@ -80,15 +97,15 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="AppleTotal" type="HBoxContainer" parent="UI/BottleNoticeBoard"]
-offset_left = 42.0
-offset_top = 57.0
-offset_right = 178.0
-offset_bottom = 145.0
+offset_left = 48.0
+offset_top = 70.0
+offset_right = 164.0
+offset_bottom = 176.0
 mouse_filter = 2
 alignment = 1
 
 [node name="BottleIcon" type="TextureRect" parent="UI/BottleNoticeBoard/AppleTotal"]
-custom_minimum_size = Vector2(50, 72)
+custom_minimum_size = Vector2(46, 72)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("8_bottle")
@@ -103,15 +120,15 @@ label_settings = SubResource("LabelSettings_bottle_count")
 vertical_alignment = 1
 
 [node name="PlumTotal" type="HBoxContainer" parent="UI/BottleNoticeBoard"]
-offset_left = 182.0
-offset_top = 57.0
-offset_right = 318.0
-offset_bottom = 145.0
+offset_left = 167.0
+offset_top = 70.0
+offset_right = 283.0
+offset_bottom = 176.0
 mouse_filter = 2
 alignment = 1
 
 [node name="BottleIcon" type="TextureRect" parent="UI/BottleNoticeBoard/PlumTotal"]
-custom_minimum_size = Vector2(50, 72)
+custom_minimum_size = Vector2(46, 72)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("10_plum_bottle")
@@ -119,6 +136,29 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="BottleCount" type="Label" parent="UI/BottleNoticeBoard/PlumTotal"]
+layout_mode = 2
+mouse_filter = 2
+text = "0"
+label_settings = SubResource("LabelSettings_bottle_count")
+vertical_alignment = 1
+
+[node name="PearTotal" type="HBoxContainer" parent="UI/BottleNoticeBoard"]
+offset_left = 286.0
+offset_top = 70.0
+offset_right = 402.0
+offset_bottom = 176.0
+mouse_filter = 2
+alignment = 1
+
+[node name="BottleIcon" type="TextureRect" parent="UI/BottleNoticeBoard/PearTotal"]
+custom_minimum_size = Vector2(46, 72)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("12_pear_bottle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BottleCount" type="Label" parent="UI/BottleNoticeBoard/PearTotal"]
 layout_mode = 2
 mouse_filter = 2
 text = "0"

@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Tree.tscn" id="1_tree"]
+[ext_resource type="Texture2D" path="res://assets/pear_tree.png" id="2_tree_art"]
+[ext_resource type="PackedScene" path="res://scenes/Pear.tscn" id="3_pear"]
+
+[node name="PearTree" instance=ExtResource("1_tree")]
+fruit_scene = ExtResource("3_pear")
+max_fruits = 100
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, -9)
+scale = Vector2(0.51, 0.51)
+texture = ExtResource("2_tree_art")
+
+[node name="Marker2D" parent="SpawnPoints" index="0"]
+position = Vector2(-133, -165)
+
+[node name="Marker2D2" parent="SpawnPoints" index="1"]
+position = Vector2(-52, -244)
+
+[node name="Marker2D3" parent="SpawnPoints" index="2"]
+position = Vector2(10, -280)
+
+[node name="Marker2D4" parent="SpawnPoints" index="3"]
+position = Vector2(85, -212)
+
+[node name="Marker2D5" parent="SpawnPoints" index="4"]
+position = Vector2(128, -101)
+
+[node name="Marker2D6" parent="SpawnPoints" index="5"]
+position = Vector2(-20, -100)
+
+[node name="Marker2D7" parent="SpawnPoints" index="6"]
+position = Vector2(-178, -49)
+
+[node name="Marker2D8" parent="SpawnPoints" index="7"]
+position = Vector2(24, -24)
+
+[node name="Marker2D9" parent="SpawnPoints" index="8"]
+position = Vector2(148, 8)

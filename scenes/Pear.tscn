@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Fruit.tscn" id="1_fruit"]
+[ext_resource type="Texture2D" path="res://assets/pear.png" id="2_pear"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pear"]
+radius = 28.0
+height = 72.0
+
+[node name="Pear" instance=ExtResource("1_fruit")]
+fruit_kind = &"pear"
+
+[node name="Sprite2D" parent="." index="0"]
+scale = Vector2(0.071, 0.071)
+texture = ExtResource("2_pear")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(-1, 11)
+shape = SubResource("CapsuleShape2D_pear")

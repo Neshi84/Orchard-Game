@@ -2,20 +2,32 @@ shader_type canvas_item;
 
 uniform float fill_level : hint_range(0.0, 1.0) = 0.0;
 uniform bool purple_glass = false;
+uniform bool gold_glass = false;
+uniform vec4 gold_label_ellipse = vec4(0.5, 0.5, 1.0, 1.0);
 uniform vec2 fill_range = vec2(0.94, 0.34);
 uniform float cork_cutoff = 0.154;
 
 void fragment() {
 	vec4 glass = COLOR;
 	float glass_hue = purple_glass ? min(glass.r, glass.b) - glass.g : glass.g - max(glass.r, glass.b);
+	if (gold_glass) {
+		glass_hue = min(glass.r, glass.g) - glass.b;
+	}
 	float glass_mask = smoothstep(0.02, 0.16, glass_hue);
-	// Preserve the label during filling and the original plum artwork once full.
+	// Preserve the labels during filling and the original artwork once full.
 	bool plum_label = UV.x > 0.38 && UV.x < 0.64 && UV.y > 0.54 && UV.y < 0.8;
 	if (purple_glass && (fill_level >= 1.0 || plum_label)) {
 		glass_mask = 0.0;
 	}
+	if (gold_glass) {
+		float label_distance = length((UV - gold_label_ellipse.xy) / gold_label_ellipse.zw);
+		glass_mask *= smoothstep(0.95, 1.05, label_distance) * (1.0 - step(1.0, fill_level));
+	}
 	float lightness = dot(glass.rgb, vec3(0.299, 0.587, 0.114));
 	vec3 empty_shadow = purple_glass ? vec3(0.64, 0.53, 0.72) : vec3(0.48, 0.65, 0.53);
+	if (gold_glass) {
+		empty_shadow = vec3(0.71, 0.65, 0.52);
+	}
 	vec3 empty_glass = mix(empty_shadow, vec3(0.94, 0.99, 0.93), lightness);
 
 	// Raise the surface from the foot to the shoulder of the bottle.
@@ -24,6 +36,9 @@ void fragment() {
 	float filled = smoothstep(-0.003, 0.003, UV.y - surface) * step(0.001, fill_level);
 	float meniscus = (1.0 - smoothstep(0.002, 0.009, abs(UV.y - surface))) * filled;
 	vec3 liquid_tint = purple_glass ? vec3(1.08, 0.8, 1.0) : vec3(1.13, 0.97, 0.66);
+	if (gold_glass) {
+		liquid_tint = vec3(1.05, 0.89, 0.63);
+	}
 	vec3 surface_glint = purple_glass ? vec3(0.23, 0.11, 0.29) : vec3(0.29, 0.21, 0.04);
 	vec3 liquid = glass.rgb * liquid_tint + meniscus * surface_glint;
 	glass.rgb = mix(glass.rgb, mix(empty_glass, liquid, filled), glass_mask);

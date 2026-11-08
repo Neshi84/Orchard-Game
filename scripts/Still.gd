@@ -8,6 +8,7 @@ enum State { IDLE, DISTILLING, WAITING_FOR_PICKUP }
 
 @export var bottle_scene: PackedScene
 @export var plum_bottle_scene: PackedScene
+@export var pear_bottle_scene: PackedScene
 @export var distill_time: float = 6.0
 @export var fruits_per_bottle: int = 5
 
@@ -31,6 +32,8 @@ func start_distilling(fruit_amount: int, fruit_kind: StringName = &"apple") -> b
             _batch_bottle_scene = bottle_scene
         &"plum":
             _batch_bottle_scene = plum_bottle_scene
+        &"pear":
+            _batch_bottle_scene = pear_bottle_scene
         _:
             return false
     if _batch_bottle_scene == null:

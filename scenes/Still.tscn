@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://assets/bottle_stand.png" id="5_stand"]
 [ext_resource type="Shader" path="res://assets/still_pour.gdshader" id="6_pour"]
 [ext_resource type="PackedScene" path="res://scenes/PlumBrandyBottle.tscn" id="7_plum_bottle"]
+[ext_resource type="PackedScene" path="res://scenes/PearSchnappsBottle.tscn" id="8_pear_bottle"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dab3r"]
 load_path = "res://.godot/imported/Steampunk Copper Distillation Apparatus.png-b4d2a40de7a49491510c0fb436dfea54.ctex"
@@ -166,6 +167,7 @@ shader = ExtResource("6_pour")
 script = ExtResource("1_aul4i")
 bottle_scene = ExtResource("2_dab3r")
 plum_bottle_scene = ExtResource("7_plum_bottle")
+pear_bottle_scene = ExtResource("8_pear_bottle")
 
 [node name="BottleStand" type="Sprite2D" parent="."]
 position = Vector2(185.5, 111.5)
