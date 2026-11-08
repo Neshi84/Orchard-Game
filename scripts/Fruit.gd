@@ -8,6 +8,7 @@ extends Area2D
 
 signal fell                # emitted the instant it lands on the ground
 signal collected(fruit)    # emitted when the barrel accepts a fallen fruit
+signal eaten
 signal rotted_away         # emitted right before it queue_frees from rotting
 
 enum State { GROWING, RIPE, FALLING, FRESH_ON_GROUND, ROTTEN, GONE }
@@ -86,14 +87,26 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		_get_collected()
 
 func _get_collected() -> void:
-	if state != State.FRESH_ON_GROUND and state != State.ROTTEN:
+	if not is_on_ground():
 		return
 	if accept_collection.is_valid() and not accept_collection.call(fruit_kind, sprite.texture):
 		return
+	_remove_from_ground()
+	collected.emit(self)
+
+func is_on_ground() -> bool:
+	return state == State.FRESH_ON_GROUND or state == State.ROTTEN
+
+func eat() -> void:
+	if not is_on_ground():
+		return
+	_remove_from_ground()
+	eaten.emit()
+
+func _remove_from_ground() -> void:
 	state = State.GONE
 	input_pickable = false
 	collision.set_deferred("disabled", true)
-	collected.emit(self)
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.15)
 	tween.tween_callback(queue_free)

@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/plum_brandy_bottle.png" id="10_plum_bottle"]
 [ext_resource type="PackedScene" path="res://scenes/PearTree.tscn" id="11_pear_tree"]
 [ext_resource type="Texture2D" path="res://assets/pear_schnapps_bottle.png" id="12_pear_bottle"]
+[ext_resource type="PackedScene" path="res://scenes/Pig.tscn" id="13_pig"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
 size = Vector2(1665.2362, 10.566528)
@@ -27,6 +28,7 @@ font_color = Color(0.23, 0.1, 0.03, 1)
 
 [node name="Game" type="Node2D" unique_id=644649877]
 script = ExtResource("1_78awf")
+pig_scene = ExtResource("13_pig")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1375485051]
 z_index = -10
@@ -79,6 +81,12 @@ z_index = -10
 position = Vector2(722.00006, 568.845)
 scale = Vector2(1.165, 1.165)
 shape = SubResource("RectangleShape2D_kvl6k")
+
+[node name="PigEntrance" type="Marker2D" parent="."]
+position = Vector2(-100, 988)
+
+[node name="PigVisitTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=152119672]
 

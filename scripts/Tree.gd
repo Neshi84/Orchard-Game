@@ -52,7 +52,11 @@ func _try_spawn_fruit() -> void:
 
 	fruit.fell.connect(_on_fruit_fell.bind(fruit))
 	fruit.rotted_away.connect(_on_fruit_gone.bind(fruit))
+	fruit.eaten.connect(_on_fruit_gone.bind(fruit))
 	fruit.collected.connect(_on_fruit_collected)
+
+func get_fallen_fruits() -> Array:
+	return active_fruits.filter(func(fruit): return fruit.is_on_ground())
 
 func _on_fruit_fell(fruit) -> void:
 	# free up the branch spot as soon as the fruit hits the ground,
