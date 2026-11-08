@@ -8,6 +8,7 @@ radius = 26.0
 height = 70.0
 
 [node name="Plum" instance=ExtResource("1_fruit")]
+fruit_kind = &"plum"
 
 [node name="Sprite2D" parent="." index="0"]
 scale = Vector2(0.072, 0.072)

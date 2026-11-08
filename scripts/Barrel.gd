@@ -20,12 +20,14 @@ enum State { ACCEPTING, FERMENTING, READY }
 var state: State = State.ACCEPTING
 var current_amount: int = 0
 var accept_batch: Callable
+var _batch_fruit_kind: StringName
 var _shake_tween: Tween
 var _pulse_tween: Tween
 var _lid_tween: Tween
 
 @onready var visual: Node2D = $Visual
 @onready var lid: Node2D = $Visual/Lid
+@onready var fruit_icon: TextureRect = $Visual/FruitIcon
 @onready var _visual_rest_position: Vector2 = visual.position
 @onready var _visual_rest_scale: Vector2 = visual.scale
 @onready var _lid_rest_y: float = lid.position.y
@@ -35,12 +37,16 @@ func _ready() -> void:
 	input_event.connect(_on_input_event)
 	_update_label()
 
-## Call this from Game.gd whenever a fruit is clicked/collected.
-## Returns false if the barrel is full/fermenting so you can decide what
-## happens to a rejected fruit (e.g. leave it on the ground, bounce it back).
-func add_fruit() -> bool:
+## Accept only fruit that matches the first fruit in this batch.
+func add_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 	if state != State.ACCEPTING or current_amount >= capacity:
 		return false
+	if current_amount == 0:
+		_batch_fruit_kind = fruit_kind
+		fruit_icon.texture = fruit_texture
+	elif fruit_kind != _batch_fruit_kind:
+		return false
+
 	current_amount += 1
 	_update_label()
 	_shake()
@@ -105,6 +111,8 @@ func _empty_into_still() -> void:
 	if accept_batch.is_valid() and not accept_batch.call(amount):
 		return
 	current_amount = 0
+	_batch_fruit_kind = &""
+	fruit_icon.texture = null
 	state = State.ACCEPTING
 	visual.modulate = Color.WHITE
 	_update_label()

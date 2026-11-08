@@ -12,6 +12,7 @@ signal rotted_away         # emitted right before it queue_frees from rotting
 
 enum State { GROWING, RIPE, FALLING, FRESH_ON_GROUND, ROTTEN, GONE }
 
+@export var fruit_kind: StringName = &"apple"
 @export var grow_time: float = 2.0
 @export var ripe_wait_min: float = 3.0
 @export var ripe_wait_max: float = 8.0
@@ -87,7 +88,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 func _get_collected() -> void:
 	if state != State.FRESH_ON_GROUND and state != State.ROTTEN:
 		return
-	if accept_collection.is_valid() and not accept_collection.call():
+	if accept_collection.is_valid() and not accept_collection.call(fruit_kind, sprite.texture):
 		return
 	state = State.GONE
 	input_pickable = false

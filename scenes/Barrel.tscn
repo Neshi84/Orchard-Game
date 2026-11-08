@@ -29,6 +29,15 @@ texture = ExtResource("2_58trb")
 polygon = PackedVector2Array(0, 114, 56, 114, 80, 124, 121, 131, 177, 135, 231, 131, 273, 123, 300, 114, 354, 114, 354, 438, 0, 438)
 uv = PackedVector2Array(0, 114, 56, 114, 80, 124, 121, 131, 177, 135, 231, 131, 273, 123, 300, 114, 354, 114, 354, 438, 0, 438)
 
+[node name="FruitIcon" type="TextureRect" parent="Visual"]
+offset_left = -56.0
+offset_top = -11.0
+offset_right = 56.0
+offset_bottom = 101.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Lid" type="Node2D" parent="Visual"]
 position = Vector2(0, -96)
 
