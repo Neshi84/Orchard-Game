@@ -9,6 +9,7 @@ extends Area2D
 signal fell                # emitted the instant it lands on the ground
 signal collected(fruit)    # emitted when the barrel accepts a fallen fruit
 signal eaten
+signal carried
 signal rotted_away         # emitted right before it queue_frees from rotting
 
 enum State { GROWING, RIPE, FALLING, FRESH_ON_GROUND, ROTTEN, GONE }
@@ -32,6 +33,7 @@ var accept_collection: Callable
 
 func _ready() -> void:
 	input_event.connect(_on_input_event)
+	input_pickable = false
 	scale = Vector2.ZERO
 	collision.disabled = true
 	_grow()
@@ -52,18 +54,30 @@ func _wait_to_fall() -> void:
 
 func _fall() -> void:
 	state = State.FALLING
+	collision.disabled = false
 	var target_x := global_position.x + randf_range(-ground_x_scatter, ground_x_scatter)
 	var target_pos := Vector2(target_x, ground_y)
-	var tween := create_tween()
-	tween.set_parallel(true)
+	var tween := create_tween().set_parallel().set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	tween.tween_property(self, "global_position", target_pos, fall_duration)\
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tween.tween_property(self, "rotation", randf_range(-1.0, 1.0), fall_duration)
-	await tween.finished
+	tween.chain().tween_callback(_land)
+
+func _land() -> void:
+	if state != State.FALLING:
+		return
 	fell.emit()
 	state = State.FRESH_ON_GROUND
-	collision.disabled = false
+	input_pickable = true
 	_start_rot_timer()
+
+func try_carry() -> bool:
+	if state != State.FALLING:
+		return false
+	state = State.GONE
+	carried.emit()
+	queue_free()
+	return true
 
 func _start_rot_timer() -> void:
 	await get_tree().create_timer(fresh_duration).timeout
