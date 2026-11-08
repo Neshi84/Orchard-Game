@@ -104,7 +104,9 @@ func _on_hedgehog_visit_timeout() -> void:
 	hedgehog.position = hedgehog_entrance.position
 	add_child(hedgehog)
 	var exit_x := get_viewport().get_visible_rect().end.x + 100.0
-	await hedgehog.cross_orchard(exit_x)
+	var first_tree_x: float = trees.front().global_position.x - 150.0
+	var last_tree_x: float = trees.back().global_position.x + 150.0
+	await hedgehog.cross_orchard(first_tree_x, last_tree_x, exit_x)
 	hedgehog.queue_free()
 	_schedule_hedgehog_visit()
 

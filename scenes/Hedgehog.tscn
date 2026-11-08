@@ -19,10 +19,12 @@ shape = SubResource("RectangleShape2D_back")
 
 [node name="Visual" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="Visual"]
+[node name="Facing" type="Node2D" parent="Visual"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual/Facing"]
 position = Vector2(0, -35.5)
 scale = Vector2(0.098, 0.098)
 texture = ExtResource("2_hedgehog")
 
-[node name="Cargo" type="Node2D" parent="Visual"]
+[node name="Cargo" type="Node2D" parent="Visual/Facing"]
 position = Vector2(-11, -76)
