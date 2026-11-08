@@ -2,14 +2,14 @@ extends Node2D
 
 ## Attach this to your root scene (e.g. Main.tscn).
 ## Expected children named exactly: Tree, Barrel, Still
-## Optional: a UI/BottleCounterLabel Label node to show the running total.
+## The notice board's BottleCount label shows the running total.
 ## This is the ONLY script that lets the systems talk to each other --
 ## Tree, Barrel, and Still never reference each other directly.
 
 @onready var tree: Node2D = $Tree
 @onready var barrel = $Barrel
 @onready var still = $Still
-@onready var bottle_counter_label: Label = get_node_or_null("UI/BottleCounterLabel")
+@onready var bottle_counter_label: Label = get_node_or_null("UI/BottleNoticeBoard/BottleTotal/BottleCount")
 
 var bottle_count: int = 0
 
@@ -37,4 +37,4 @@ func _on_bottle_collected() -> void:
 
 func _update_bottle_label() -> void:
 	if bottle_counter_label:
-		bottle_counter_label.text = "Bottles: %d" % bottle_count
+		bottle_counter_label.text = str(bottle_count)
