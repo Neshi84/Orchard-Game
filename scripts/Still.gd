@@ -22,6 +22,8 @@ var _batch_bottle_scene: PackedScene
 @onready var gauge: AnimatedSprite2D = $Gauge
 @onready var bottle_spawn_point: Marker2D = $BottleSpawnPoint
 @onready var stream: ColorRect = $PourStream
+@onready var pour_sound: AudioStreamPlayer = $PourSound
+@onready var bottle_pickup_sound: AudioStreamPlayer = $BottlePickupSound
 @onready var steam_jets: Array[CPUParticles2D] = [$BoilerJointSteam, $CondenserJointSteam]
 
 func start_distilling(fruit_amount: int, fruit_kind: StringName = &"apple") -> bool:
@@ -70,12 +72,14 @@ func _start_effects() -> void:
     furnace_fire.show()
     furnace_fire.play("default")
     stream.show()
+    pour_sound.play()
     for jet in steam_jets:
         jet.show()
         jet.restart()
 
 func _stop_effects() -> void:
     stream.hide()
+    pour_sound.stop()
     furnace_fire.stop()
     furnace_fire.frame = 0
     furnace_fire.hide()
@@ -86,6 +90,7 @@ func _stop_effects() -> void:
         jet.hide()
 
 func _on_bottle_collected(fruit_kind: StringName) -> void:
+    bottle_pickup_sound.play()
     if _bottles_remaining > 0:
         _fill_next_bottle(fruit_kind)
     else:

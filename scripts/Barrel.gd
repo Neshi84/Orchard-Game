@@ -28,6 +28,7 @@ var _lid_tween: Tween
 @onready var visual: Node2D = $Visual
 @onready var lid: Node2D = $Visual/Lid
 @onready var fruit_icon: TextureRect = $Visual/FruitIcon
+@onready var tumble_sound: AudioStreamPlayer = $TumbleSound
 @onready var _visual_rest_position: Vector2 = visual.position
 @onready var _visual_rest_scale: Vector2 = visual.scale
 @onready var _lid_rest_y: float = lid.position.y
@@ -50,6 +51,7 @@ func add_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 	current_amount += 1
 	_update_label()
 	_shake()
+	tumble_sound.play()
 	if current_amount >= capacity:
 		_start_fermenting()
 	return true

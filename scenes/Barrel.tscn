@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://e2l32n28wk4k" path="res://scripts/Barrel.gd" id="1_yuusr"]
 [ext_resource type="Texture2D" uid="uid://5ifpsab7c8fk" path="res://assets/barrel.png" id="2_58trb"]
+[ext_resource type="AudioStream" path="res://assets/audio/barrel_tumble.wav" id="3_tumble"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
 size = Vector2(85, 95)
@@ -50,3 +51,8 @@ uv = PackedVector2Array(0, 0, 354, 0, 354, 114, 300, 114, 273, 123, 231, 131, 17
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1517555094]
 position = Vector2(-66.5, 106.5)
 shape = SubResource("RectangleShape2D_kvl6k")
+
+[node name="TumbleSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_tumble")
+volume_db = -9.0
+max_polyphony = 2

@@ -8,6 +8,8 @@
 [ext_resource type="Shader" path="res://assets/still_pour.gdshader" id="6_pour"]
 [ext_resource type="PackedScene" path="res://scenes/PlumBrandyBottle.tscn" id="7_plum_bottle"]
 [ext_resource type="PackedScene" path="res://scenes/PearSchnappsBottle.tscn" id="8_pear_bottle"]
+[ext_resource type="AudioStream" path="res://assets/audio/liquid_pour.wav" id="9_pour_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/bottle_clink.wav" id="11_clink_sound"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dab3r"]
 load_path = "res://.godot/imported/Steampunk Copper Distillation Apparatus.png-b4d2a40de7a49491510c0fb436dfea54.ctex"
@@ -190,6 +192,15 @@ offset_top = 20.0
 offset_right = 172.5
 offset_bottom = 41.5
 mouse_filter = 2
+
+[node name="PourSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_pour_sound")
+volume_db = -7.0
+
+[node name="BottlePickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_clink_sound")
+volume_db = -10.0
+max_polyphony = 2
 
 [node name="FurnaceFire" type="AnimatedSprite2D" parent="." unique_id=1620229000]
 visible = false
