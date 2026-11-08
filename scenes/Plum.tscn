@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Fruit.tscn" id="1_fruit"]
+[ext_resource type="Texture2D" path="res://assets/plum.png" id="2_plum"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_plum"]
+radius = 26.0
+height = 70.0
+
+[node name="Plum" instance=ExtResource("1_fruit")]
+
+[node name="Sprite2D" parent="." index="0"]
+scale = Vector2(0.072, 0.072)
+texture = ExtResource("2_plum")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(-1, 10)
+shape = SubResource("CapsuleShape2D_plum")

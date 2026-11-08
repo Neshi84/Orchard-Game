@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dx0dcrxo8vyq5" path="res://assets/Cartoon River Valley Game Landscape.png" id="6_aug50"]
 [ext_resource type="Texture2D" path="res://assets/bottle_notice_board.png" id="7_notice_board"]
 [ext_resource type="Texture2D" uid="uid://cxbpnjv3k2abs" path="res://assets/Cartoon Apple Elixir Bottle.png" id="8_bottle"]
+[ext_resource type="PackedScene" path="res://scenes/PlumTree.tscn" id="9_plum_tree"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
 size = Vector2(1665.2362, 10.566528)
@@ -32,14 +33,19 @@ scale = Vector2(0.5, 0.5)
 fruit_scene = ExtResource("3_s0nni")
 max_fruits = 100
 
+[node name="PlumTree" parent="." instance=ExtResource("9_plum_tree")]
+z_index = 1
+position = Vector2(540, 786)
+scale = Vector2(0.5, 0.5)
+
 [node name="Barrel" parent="." unique_id=700381046 instance=ExtResource("3_aug50")]
 z_index = 2
-position = Vector2(546, 803)
+position = Vector2(846, 803)
 capacity = 5
 
 [node name="Still" parent="." unique_id=188314992 instance=ExtResource("4_kiw3p")]
 z_index = 2
-position = Vector2(847, 843)
+position = Vector2(1147, 843)
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=342876602]
 z_index = 1

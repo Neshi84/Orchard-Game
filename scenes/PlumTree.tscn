@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Tree.tscn" id="1_tree"]
+[ext_resource type="Texture2D" path="res://assets/plum_tree.png" id="2_tree_art"]
+[ext_resource type="PackedScene" path="res://scenes/Plum.tscn" id="3_plum"]
+
+[node name="PlumTree" instance=ExtResource("1_tree")]
+fruit_scene = ExtResource("3_plum")
+max_fruits = 100
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, -18)
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("2_tree_art")
+
+[node name="Marker2D" parent="SpawnPoints" index="0"]
+position = Vector2(-135, -140)
+
+[node name="Marker2D2" parent="SpawnPoints" index="1"]
+position = Vector2(-64, -220)
+
+[node name="Marker2D3" parent="SpawnPoints" index="2"]
+position = Vector2(45, -276)
+
+[node name="Marker2D4" parent="SpawnPoints" index="3"]
+position = Vector2(107, -169)
+
+[node name="Marker2D5" parent="SpawnPoints" index="4"]
+position = Vector2(153, -66)
+
+[node name="Marker2D6" parent="SpawnPoints" index="5"]
+position = Vector2(13, -69)
+
+[node name="Marker2D7" parent="SpawnPoints" index="6"]
+position = Vector2(-104, -42)
+
+[node name="Marker2D8" parent="SpawnPoints" index="7"]
+position = Vector2(68, 11)
+
+[node name="Marker2D9" parent="SpawnPoints" index="8"]
+position = Vector2(-187, -41)
