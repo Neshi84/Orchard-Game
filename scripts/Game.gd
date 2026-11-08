@@ -92,7 +92,7 @@ func _on_fox_visit_timeout() -> void:
 	fox.position = fox_entrance.position
 	add_child(fox)
 	var exit_x := get_viewport().get_visible_rect().end.x + 100.0
-	await fox.cross_orchard(perches, fox_landing, exit_x)
+	await fox.cross_orchard(perches, fox_landing, exit_x, still.bottle_spawn_point, still.take_full_bottle)
 	fox.queue_free()
 	_schedule_fox_visit()
 

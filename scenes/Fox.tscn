@@ -7,7 +7,14 @@
 z_index = 5
 script = ExtResource("1_fox")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Visual" type="Node2D" parent="."]
 position = Vector2(0, -24)
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
 scale = Vector2(0.078, 0.078)
 texture = ExtResource("2_fox")
+
+[node name="BottleCarry" type="Marker2D" parent="Visual"]
+position = Vector2(57, 2)
+rotation = -1.309
+scale = Vector2(0.65, 0.65)

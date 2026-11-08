@@ -17,6 +17,8 @@ var _batch_size: int
 var _bottles_remaining: int
 var _fill_duration: float
 var _batch_bottle_scene: PackedScene
+var _batch_fruit_kind: StringName
+var _full_bottle: Area2D
 
 @onready var furnace_fire: AnimatedSprite2D = $FurnaceFire
 @onready var gauge: AnimatedSprite2D = $Gauge
@@ -41,18 +43,19 @@ func start_distilling(fruit_amount: int, fruit_kind: StringName = &"apple") -> b
     if _batch_bottle_scene == null:
         return false
 
+    _batch_fruit_kind = fruit_kind
     _batch_size = maxi(1, floori(float(fruit_amount) / maxi(fruits_per_bottle, 1)))
     _bottles_remaining = _batch_size
     _fill_duration = maxf(distill_time, 0.0) / _batch_size
-    _fill_next_bottle(fruit_kind)
+    _fill_next_bottle()
     started_distilling.emit()
     return true
 
-func _fill_next_bottle(fruit_kind: StringName) -> void:
+func _fill_next_bottle() -> void:
     state = State.DISTILLING
     var bottle = _batch_bottle_scene.instantiate()
     bottle_spawn_point.add_child(bottle)
-    bottle.collected.connect(_on_bottle_collected.bind(fruit_kind))
+    bottle.collected.connect(_on_bottle_collected)
     stream.offset_bottom = to_local(bottle.mouth.global_position).y
     _start_effects()
 
@@ -63,6 +66,7 @@ func _fill_next_bottle(fruit_kind: StringName) -> void:
     _stop_effects()
     _bottles_remaining -= 1
     state = State.WAITING_FOR_PICKUP
+    _full_bottle = bottle
     bottle.mark_full()
     if _bottles_remaining == 0:
         finished_distilling.emit(_batch_size)
@@ -89,10 +93,24 @@ func _stop_effects() -> void:
         jet.emitting = false
         jet.hide()
 
-func _on_bottle_collected(fruit_kind: StringName) -> void:
+func take_full_bottle(carrier: Node2D) -> Area2D:
+    if state != State.WAITING_FOR_PICKUP:
+        return null
+    var bottle := _full_bottle
+    bottle.input_pickable = false
+    bottle.reparent(carrier, false)
+    _advance_batch()
+    return bottle
+
+func _on_bottle_collected() -> void:
+    var fruit_kind := _batch_fruit_kind
     bottle_pickup_sound.play()
+    _advance_batch()
+    bottle_collected.emit(fruit_kind)
+
+func _advance_batch() -> void:
+    _full_bottle = null
     if _bottles_remaining > 0:
-        _fill_next_bottle(fruit_kind)
+        _fill_next_bottle()
     else:
         state = State.IDLE
-    bottle_collected.emit(fruit_kind)
