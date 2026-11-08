@@ -22,6 +22,7 @@ var state: State = State.IDLE
 @onready var gauge: AnimatedSprite2D = $Gauge
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var bottle_spawn_point: Node2D = get_node_or_null("BottleSpawnPoint")
+@onready var steam_jets: Array[CPUParticles2D] = [$BoilerJointSteam, $CondenserJointSteam]
 
 ## Call this from Game.gd when the Barrel empties into the still.
 func start_distilling(fruit_amount: int) -> bool:
@@ -35,6 +36,9 @@ func start_distilling(fruit_amount: int) -> bool:
     # Start furnace fire
     furnace_fire.visible = true
     furnace_fire.play("default")
+    for jet in steam_jets:
+        jet.show()
+        jet.restart()
 
     var bottle_count := int(fruit_amount / float(fruits_per_bottle))
 
@@ -46,6 +50,9 @@ func start_distilling(fruit_amount: int) -> bool:
     furnace_fire.stop()
     furnace_fire.frame = 0
     furnace_fire.visible = false
+    for jet in steam_jets:
+        jet.emitting = false
+        jet.hide()
     gauge.stop()
     gauge.frame = 0
     _finish_distilling(bottle_count)
