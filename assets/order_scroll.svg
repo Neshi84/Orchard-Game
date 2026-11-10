@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="302" viewBox="0 0 300 302">
+  <defs>
+    <linearGradient id="paper">
+      <stop stop-color="#d4a666"/>
+      <stop offset=".18" stop-color="#f3d79c"/>
+      <stop offset=".63" stop-color="#ffe8b7"/>
+      <stop offset="1" stop-color="#dcb47a"/>
+    </linearGradient>
+    <linearGradient id="roll" x2="0" y2="1">
+      <stop stop-color="#b68045"/>
+      <stop offset=".38" stop-color="#f7d99e"/>
+      <stop offset=".66" stop-color="#e7bd7e"/>
+      <stop offset="1" stop-color="#aa713e"/>
+    </linearGradient>
+  </defs>
+  <path fill="#412718" opacity=".22" d="M19 8h270q12 0 9 14l-3 13q-1 7-13 7l-1 231q16 0 16 11t-14 14H20Q5 298 6 285q0-11 15-12L21 42Q5 42 5 28l2-11q2-9 12-9Z"/>
+  <path fill="url(#paper)" stroke="#976038" stroke-width="2" d="M23 23q126 8 254-1l-4 255q-125-9-251 0l5-75-4-37 4-65Z"/>
+  <path fill="none" stroke="#ae7646" opacity=".48" stroke-width="1.5" d="M37 42q-5 35-2 64m-1 106q-2 22 0 48M263 42q2 24-1 55m1 121-3 41"/>
+  <path fill="url(#roll)" stroke="#976038" stroke-width="2" d="M19 6q124 6 257 0c12-1 19 6 17 16-1 9-5 14-17 13q-128-5-257 0C8 36 4 30 5 22 5 12 10 6 19 6Z"/>
+  <path fill="url(#roll)" stroke="#976038" stroke-width="2" d="M20 269q127 5 256 0c11 0 17 5 17 13s-6 13-17 13q-127-6-256 0c-10 0-16-5-16-13s6-13 16-13Z"/>
+  <path fill="none" stroke="#8c552d" stroke-width="1.5" d="M277 7c-12 4-11 21 0 26 8 3 12-13 5-15-4-1-6 5-2 7M20 270c11 4 10 19 0 24-7 3-12-10-5-13 4-1 6 4 3 6"/>
+  <path fill="none" stroke="#a57242" stroke-width="1.5" d="M51 86h90m18 0h90"/>
+  <path fill="#a57242" d="m150 82 4 4-4 4-4-4Z"/>
+</svg>

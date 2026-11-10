@@ -9,9 +9,12 @@ extends Node2D
 @export var fox_scene: PackedScene
 @export var hedgehog_scene: PackedScene
 
+const MAX_ORDER_QUANTITY := 30
+
 @onready var trees: Array = [$Tree, $PlumTree, $PearTree]
 @onready var barrels: Array = [$Barrel, $Barrel2, $Barrel3]
 @onready var still = $Still
+@onready var bottle_crate = $BottleCrate
 @onready var pig_entrance: Marker2D = $PigEntrance
 @onready var pig_visit_timer: Timer = $PigVisitTimer
 @onready var squirrel: Sprite2D = $Squirrel
@@ -26,15 +29,22 @@ extends Node2D
 	&"plum": $UI/BottleNoticeBoard/PlumTotal/BottleCount,
 	&"pear": $UI/BottleNoticeBoard/PearTotal/BottleCount,
 }
+@onready var order_progress: Label = $UI/OrderScroll/Contents/Progress
+@onready var order_status: Label = $UI/OrderScroll/Contents/Status
+@onready var ship_button: Button = $UI/OrderScroll/Contents/ShipButton
 
 var bottle_counts: Dictionary[StringName, int] = {&"apple": 0, &"plum": 0, &"pear": 0}
+var order_requirements: Dictionary[StringName, int] = {}
 
 func _ready() -> void:
 	for tree in trees:
 		tree.accept_fruit = _route_fruit
 	for barrel in barrels:
 		barrel.accept_batch = still.start_distilling
+	still.bottle_crate = bottle_crate
 	still.bottle_collected.connect(_on_bottle_collected)
+	ship_button.pressed.connect(_ship_order)
+	_roll_order()
 	pig_visit_timer.timeout.connect(_on_pig_visit_timeout)
 	_schedule_pig_visit()
 	squirrel_peek_timer.timeout.connect(_on_squirrel_peek_timeout)
@@ -119,3 +129,39 @@ func _route_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 func _on_bottle_collected(fruit_kind: StringName) -> void:
 	bottle_counts[fruit_kind] += 1
 	bottle_counter_labels[fruit_kind].text = str(bottle_counts[fruit_kind])
+	_update_order()
+
+func _roll_order() -> void:
+	var total := 0
+	while total == 0:
+		for fruit_kind in bottle_counts:
+			var quantity := randi_range(0, MAX_ORDER_QUANTITY)
+			order_requirements[fruit_kind] = quantity
+			total += quantity
+	_update_order()
+
+func _update_order() -> void:
+	var lines := PackedStringArray()
+	for fruit_kind in order_requirements:
+		lines.append("%s   %d / %d" % [
+			str(fruit_kind).capitalize(), bottle_counts[fruit_kind], order_requirements[fruit_kind]
+		])
+	order_progress.text = "\n".join(lines)
+	ship_button.disabled = not _can_ship_order()
+	order_status.text = "Collect the bottles" if ship_button.disabled else "Ready to ship"
+
+func _can_ship_order() -> bool:
+	for fruit_kind in order_requirements:
+		if bottle_counts[fruit_kind] < order_requirements[fruit_kind]:
+			return false
+	return true
+
+func _ship_order() -> void:
+	if not _can_ship_order():
+		return
+	bottle_crate.clear_bottles()
+	for fruit_kind in bottle_counts:
+		bottle_counts[fruit_kind] = 0
+		bottle_counter_labels[fruit_kind].text = "0"
+	_roll_order()
+	order_status.text = "Order shipped!"

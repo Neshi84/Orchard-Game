@@ -13,6 +13,7 @@ enum State { IDLE, DISTILLING, WAITING_FOR_PICKUP }
 @export var fruits_per_bottle: int = 5
 
 var state: State = State.IDLE
+var bottle_crate: Node2D
 var _batch_size: int
 var _bottles_remaining: int
 var _fill_duration: float
@@ -54,6 +55,7 @@ func start_distilling(fruit_amount: int, fruit_kind: StringName = &"apple") -> b
 func _fill_next_bottle() -> void:
 	state = State.DISTILLING
 	var bottle = _batch_bottle_scene.instantiate()
+	bottle.crate = bottle_crate
 	bottle_spawn_point.add_child(bottle)
 	bottle.collected.connect(_on_bottle_collected)
 	stream.offset_bottom = to_local(bottle.mouth.global_position).y

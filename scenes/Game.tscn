@@ -16,6 +16,9 @@
 [ext_resource type="Texture2D" path="res://assets/squirrel_head.png" id="14_squirrel"]
 [ext_resource type="PackedScene" path="res://scenes/Fox.tscn" id="15_fox"]
 [ext_resource type="PackedScene" path="res://scenes/Hedgehog.tscn" id="16_hedgehog"]
+[ext_resource type="Texture2D" path="res://assets/bottle_crate.png" id="17_crate"]
+[ext_resource type="Script" path="res://scripts/BottleCrate.gd" id="18_crate_script"]
+[ext_resource type="Texture2D" path="res://assets/order_scroll.svg" id="19_order_scroll"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
 size = Vector2(1665.2362, 10.566528)
@@ -28,6 +31,27 @@ font_weight = 700
 font = SubResource("SystemFont_notice_board")
 font_size = 32
 font_color = Color(0.23, 0.1, 0.03, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ship"]
+bg_color = Color(0.39, 0.22, 0.12, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ship_hover"]
+bg_color = Color(0.51, 0.29, 0.14, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ship_disabled"]
+bg_color = Color(0.76, 0.58, 0.37, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
 [node name="Game" type="Node2D" unique_id=644649877]
 script = ExtResource("1_78awf")
@@ -76,6 +100,37 @@ capacity = 5
 [node name="Still" parent="." unique_id=188314992 instance=ExtResource("4_kiw3p")]
 z_index = 2
 position = Vector2(1487, 843)
+
+[node name="BottleCrate" type="Node2D" parent="."]
+position = Vector2(1787, 943)
+z_index = 2
+script = ExtResource("18_crate_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="BottleCrate"]
+scale = Vector2(0.106, 0.106)
+texture = ExtResource("17_crate")
+
+[node name="Slots" type="Node2D" parent="BottleCrate"]
+
+[node name="Left" type="Marker2D" parent="BottleCrate/Slots"]
+position = Vector2(-28, -7)
+
+[node name="Center" type="Marker2D" parent="BottleCrate/Slots"]
+position = Vector2(0, -7)
+
+[node name="Right" type="Marker2D" parent="BottleCrate/Slots"]
+position = Vector2(28, -7)
+
+[node name="InTransit" type="Node2D" parent="BottleCrate"]
+
+[node name="FrontSlats" type="Sprite2D" parent="BottleCrate"]
+z_index = 2
+position = Vector2(-49.714, -5.83)
+scale = Vector2(0.106, 0.106)
+texture = ExtResource("17_crate")
+centered = false
+region_enabled = true
+region_rect = Rect2(299, 457, 937, 369)
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=342876602]
 z_index = 1
@@ -200,3 +255,70 @@ mouse_filter = 2
 text = "0"
 label_settings = SubResource("LabelSettings_bottle_count")
 vertical_alignment = 1
+
+[node name="OrderScroll" type="TextureRect" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -403.0
+offset_top = 237.0
+offset_right = -103.0
+offset_bottom = 539.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("19_order_scroll")
+
+[node name="Contents" type="Control" parent="UI/OrderScroll"]
+layout_mode = 0
+offset_left = 40.0
+offset_right = 260.0
+offset_bottom = 269.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="UI/OrderScroll/Contents"]
+offset_top = 42.0
+offset_right = 220.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0.23, 0.1, 0.03, 1)
+theme_override_fonts/font = SubResource("SystemFont_notice_board")
+theme_override_font_sizes/font_size = 30
+text = "Bottle Order"
+horizontal_alignment = 1
+
+[node name="Progress" type="Label" parent="UI/OrderScroll/Contents"]
+offset_top = 98.0
+offset_right = 220.0
+offset_bottom = 179.0
+theme_override_colors/font_color = Color(0.23, 0.1, 0.03, 1)
+theme_override_fonts/font = SubResource("SystemFont_notice_board")
+theme_override_font_sizes/font_size = 22
+text = "Apple   0 / 1
+Plum   0 / 1
+Pear   0 / 1"
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="UI/OrderScroll/Contents"]
+offset_top = 184.0
+offset_right = 220.0
+offset_bottom = 210.0
+theme_override_colors/font_color = Color(0.34, 0.17, 0.07, 1)
+theme_override_fonts/font = SubResource("SystemFont_notice_board")
+theme_override_font_sizes/font_size = 18
+text = "Collect the bottles"
+horizontal_alignment = 1
+
+[node name="ShipButton" type="Button" parent="UI/OrderScroll/Contents"]
+offset_left = 46.0
+offset_top = 218.0
+offset_right = 174.0
+offset_bottom = 258.0
+theme_override_colors/font_color = Color(1, 0.92, 0.74, 1)
+theme_override_colors/font_disabled_color = Color(0.29, 0.15, 0.07, 1)
+theme_override_fonts/font = SubResource("SystemFont_notice_board")
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("StyleBoxFlat_ship")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ship_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ship")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ship_disabled")
+disabled = true
+text = "Ship"
