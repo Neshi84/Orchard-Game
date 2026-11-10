@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/fox.png" id="2_fox"]
 
 [node name="Fox" type="Node2D" groups=["fox"]]
-z_index = 5
+z_index = 6
 script = ExtResource("1_fox")
 
 [node name="Visual" type="Node2D" parent="."]

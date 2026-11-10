@@ -24,17 +24,18 @@ const MAX_ORDER_QUANTITY := 30
 @onready var fox_visit_timer: Timer = $FoxVisitTimer
 @onready var hedgehog_entrance: Marker2D = $HedgehogEntrance
 @onready var hedgehog_visit_timer: Timer = $HedgehogVisitTimer
-@onready var bottle_counter_labels: Dictionary[StringName, Label] = {
-	&"apple": $UI/BottleNoticeBoard/AppleTotal/BottleCount,
-	&"plum": $UI/BottleNoticeBoard/PlumTotal/BottleCount,
-	&"pear": $UI/BottleNoticeBoard/PearTotal/BottleCount,
+@onready var gold_count: Label = $UI/GoldNoticeBoard/Total/GoldCount
+@onready var order_progress_labels: Dictionary[StringName, Label] = {
+	&"apple": $UI/OrderScroll/Contents/Progress/Apple/Count,
+	&"plum": $UI/OrderScroll/Contents/Progress/Plum/Count,
+	&"pear": $UI/OrderScroll/Contents/Progress/Pear/Count,
 }
-@onready var order_progress: Label = $UI/OrderScroll/Contents/Progress
 @onready var order_status: Label = $UI/OrderScroll/Contents/Status
 @onready var ship_button: Button = $UI/OrderScroll/Contents/ShipButton
 
 var bottle_counts: Dictionary[StringName, int] = {&"apple": 0, &"plum": 0, &"pear": 0}
 var order_requirements: Dictionary[StringName, int] = {}
+var gold := 0
 
 func _ready() -> void:
 	for tree in trees:
@@ -128,7 +129,8 @@ func _route_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 
 func _on_bottle_collected(fruit_kind: StringName) -> void:
 	bottle_counts[fruit_kind] += 1
-	bottle_counter_labels[fruit_kind].text = str(bottle_counts[fruit_kind])
+	gold += 1
+	gold_count.text = str(gold)
 	_update_order()
 
 func _roll_order() -> void:
@@ -141,12 +143,10 @@ func _roll_order() -> void:
 	_update_order()
 
 func _update_order() -> void:
-	var lines := PackedStringArray()
 	for fruit_kind in order_requirements:
-		lines.append("%s   %d / %d" % [
+		order_progress_labels[fruit_kind].text = "%s   %d / %d" % [
 			str(fruit_kind).capitalize(), bottle_counts[fruit_kind], order_requirements[fruit_kind]
-		])
-	order_progress.text = "\n".join(lines)
+		]
 	ship_button.disabled = not _can_ship_order()
 	order_status.text = "Collect the bottles" if ship_button.disabled else "Ready to ship"
 
@@ -162,6 +162,5 @@ func _ship_order() -> void:
 	bottle_crate.clear_bottles()
 	for fruit_kind in bottle_counts:
 		bottle_counts[fruit_kind] = 0
-		bottle_counter_labels[fruit_kind].text = "0"
 	_roll_order()
 	order_status.text = "Order shipped!"

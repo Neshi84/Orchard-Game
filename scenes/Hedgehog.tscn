@@ -8,7 +8,7 @@
 size = Vector2(49, 22)
 
 [node name="Hedgehog" type="Area2D"]
-z_index = 3
+z_index = 5
 collision_layer = 0
 input_pickable = false
 monitorable = false
