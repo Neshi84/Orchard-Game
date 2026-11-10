@@ -129,8 +129,6 @@ func _route_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 
 func _on_bottle_collected(fruit_kind: StringName) -> void:
 	bottle_counts[fruit_kind] += 1
-	gold += 1
-	gold_count.text = str(gold)
 	_update_order()
 
 func _roll_order() -> void:
@@ -161,6 +159,8 @@ func _ship_order() -> void:
 		return
 	bottle_crate.clear_bottles()
 	for fruit_kind in bottle_counts:
+		gold += bottle_counts[fruit_kind]
 		bottle_counts[fruit_kind] = 0
+	gold_count.text = str(gold)
 	_roll_order()
 	order_status.text = "Order shipped!"

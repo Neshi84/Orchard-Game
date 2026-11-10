@@ -162,6 +162,21 @@ colors = PackedColorArray(1, 1, 1, 0.45, 1, 1, 1, 0.85, 1, 1, 1, 0.6, 1, 1, 1, 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pour"]
 shader = ExtResource("6_pour")
 
+[sub_resource type="Gradient" id="Gradient_furnace_glow"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 0.4, 0.08, 0.44, 1, 0.31, 0.04, 0.22, 1, 0.26, 0.02, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_furnace_glow"]
+gradient = SubResource("Gradient_furnace_glow")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_furnace_glow"]
+blend_mode = 1
+
 [node name="Still" type="Node2D" unique_id=188314992]
 script = ExtResource("1_aul4i")
 bottle_scene = ExtResource("2_dab3r")
@@ -197,10 +212,17 @@ max_polyphony = 2
 
 [node name="FurnaceFire" type="AnimatedSprite2D" parent="." unique_id=1620229000]
 visible = false
-position = Vector2(-113.1, 105.6)
-scale = Vector2(0.105, 0.105)
+position = Vector2(-113.1, 101)
+scale = Vector2(0.13, 0.13)
 sprite_frames = SubResource("SpriteFrames_losng")
 frame_progress = 0.8443962
+
+[node name="Glow" type="Sprite2D" parent="FurnaceFire"]
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_furnace_glow")
+position = Vector2(0, 50)
+scale = Vector2(3.2, 3.2)
+texture = SubResource("GradientTexture2D_furnace_glow")
 
 [node name="Gauge" type="AnimatedSprite2D" parent="." unique_id=1571759785]
 z_index = 1
