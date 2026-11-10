@@ -81,35 +81,35 @@ max_fruits = 100
 
 [node name="PlumTree" parent="." instance=ExtResource("9_plum_tree")]
 z_index = 1
-position = Vector2(540, 786)
+position = Vector2(510, 786)
 scale = Vector2(0.5, 0.5)
 
 [node name="PearTree" parent="." instance=ExtResource("11_pear_tree")]
 z_index = 1
-position = Vector2(830, 786)
+position = Vector2(765, 786)
 scale = Vector2(0.5, 0.5)
 
 [node name="Barrel" parent="." unique_id=700381046 instance=ExtResource("3_aug50")]
 z_index = 2
-position = Vector2(1116, 803)
+position = Vector2(1036, 803)
 capacity = 5
 
 [node name="Barrel2" parent="." instance=ExtResource("3_aug50")]
 z_index = 2
-position = Vector2(1236, 803)
+position = Vector2(1156, 803)
 capacity = 5
 
 [node name="Barrel3" parent="." instance=ExtResource("3_aug50")]
 z_index = 2
-position = Vector2(1356, 803)
+position = Vector2(1276, 803)
 capacity = 5
 
 [node name="Still" parent="." unique_id=188314992 instance=ExtResource("4_kiw3p")]
 z_index = 2
-position = Vector2(1565, 844.4)
+position = Vector2(1485, 844.4)
 
 [node name="BottleCrate" type="Node2D" parent="."]
-position = Vector2(1842, 943)
+position = Vector2(1762, 943)
 z_index = 2
 script = ExtResource("18_crate_script")
 
@@ -167,7 +167,7 @@ one_shot = true
 position = Vector2(-100, 1000)
 
 [node name="FoxLanding" type="Marker2D" parent="."]
-position = Vector2(1425, 1000)
+position = Vector2(1345, 1000)
 
 [node name="FoxVisitTimer" type="Timer" parent="."]
 one_shot = true
