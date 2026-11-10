@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/Hedgehog.gd" id="1_hedgehog"]
 [ext_resource type="Texture2D" path="res://assets/hedgehog.png" id="2_hedgehog"]
+[ext_resource type="Texture2D" path="res://assets/hedgehog_curled.png" id="3_curled"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_back"]
 size = Vector2(49, 22)
@@ -28,3 +29,9 @@ texture = ExtResource("2_hedgehog")
 
 [node name="Cargo" type="Node2D" parent="Visual/Facing"]
 position = Vector2(-11, -76)
+
+[node name="Curled" type="Sprite2D" parent="Visual/Facing"]
+visible = false
+position = Vector2(0, -32)
+scale = Vector2(0.086, 0.086)
+texture = ExtResource("3_curled")

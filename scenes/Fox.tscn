@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/Fox.gd" id="1_fox"]
 [ext_resource type="Texture2D" path="res://assets/fox.png" id="2_fox"]
 
-[node name="Fox" type="Node2D"]
+[node name="Fox" type="Node2D" groups=["fox"]]
 z_index = 5
 script = ExtResource("1_fox")
 

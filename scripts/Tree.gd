@@ -42,12 +42,18 @@ func _try_spawn_fruit() -> void:
 
 	var point = free_points[randi() % free_points.size()]
 	point.set_meta("occupied", true)
+	_spawn_fruit_at(point.global_position, point)
 
+func drop_fruit(world_position: Vector2) -> void:
+	_spawn_fruit_at(world_position)
+
+func _spawn_fruit_at(world_position: Vector2, point: Node2D = null) -> void:
 	var fruit = fruit_scene.instantiate()
 	fruit.accept_collection = accept_fruit
-	add_child(fruit)
-	fruit.global_position = point.global_position
+	fruit.drop_handler = drop_fruit
+	fruit.position = to_local(world_position)
 	fruit.spawn_point = point
+	fruit.dropped_from_cargo = point == null
 	active_fruits.append(fruit)
 
 	fruit.fell.connect(_on_fruit_fell.bind(fruit))
@@ -55,6 +61,7 @@ func _try_spawn_fruit() -> void:
 	fruit.eaten.connect(_on_fruit_gone.bind(fruit))
 	fruit.carried.connect(_on_fruit_carried.bind(fruit))
 	fruit.collected.connect(_on_fruit_collected)
+	add_child(fruit)
 
 func get_fallen_fruits() -> Array:
 	return active_fruits.filter(func(fruit): return fruit.is_on_ground())

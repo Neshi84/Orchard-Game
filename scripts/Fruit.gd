@@ -27,6 +27,8 @@ enum State { GROWING, RIPE, FALLING, FRESH_ON_GROUND, ROTTEN, GONE }
 var state: State = State.GROWING
 var spawn_point: Node2D  # set by Tree.gd right after instancing
 var accept_collection: Callable
+var drop_handler: Callable
+var dropped_from_cargo := false
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = $CollisionShape2D
@@ -34,6 +36,10 @@ var accept_collection: Callable
 func _ready() -> void:
 	input_event.connect(_on_input_event)
 	input_pickable = false
+	if dropped_from_cargo:
+		fall_duration = 0.28
+		_fall()
+		return
 	scale = Vector2.ZERO
 	collision.disabled = true
 	_grow()
