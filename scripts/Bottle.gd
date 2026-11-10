@@ -28,7 +28,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		if is_instance_valid(crate):
 			var slot := crate.reserve_slot(self)
 			var opening := slot.global_position - Vector2(0.0, 14.0)
-			tween.tween_method(_fly_to_crate.bind(global_position, opening), 0.0, 1.0, 0.36)
+			tween.tween_method(_fly_to_crate.bind(global_position, opening, scale), 0.0, 1.0, 0.36)
 			tween.tween_callback(crate.store_bottle.bind(self, slot))
 			tween.tween_property(self, "position", Vector2.ZERO, 0.12)
 		else:
@@ -36,8 +36,8 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 			tween.tween_callback(queue_free)
 		collected.emit()
 
-func _fly_to_crate(progress: float, start: Vector2, opening: Vector2) -> void:
+func _fly_to_crate(progress: float, start: Vector2, opening: Vector2, start_scale: Vector2) -> void:
 	var arc := sin(progress * PI)
 	global_position = start.lerp(opening, progress) - Vector2(0.0, 52.0 * arc)
-	scale = Vector2.ONE * lerpf(1.0, 0.65, progress)
+	scale = start_scale.lerp(Vector2(0.65, 0.65), progress)
 	rotation = 0.2 * arc

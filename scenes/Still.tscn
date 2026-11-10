@@ -4,15 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://brof2ymh8bb3s" path="res://scenes/Bottle.tscn" id="2_dab3r"]
 [ext_resource type="Texture2D" uid="uid://bxqv6elf3hx7x" path="res://assets/furnace_fire_spritesheet.png" id="4_177eh"]
 [ext_resource type="Texture2D" uid="uid://lcqw7eqaktil" path="res://assets/godot_gauge_spritesheet.png" id="4_cf84v"]
-[ext_resource type="Texture2D" path="res://assets/bottle_stand.png" id="5_stand"]
+[ext_resource type="Texture2D" uid="uid://dwdwddx4wlwbk" path="res://assets/still_workshop_tall.png" id="5_workshop"]
 [ext_resource type="Shader" path="res://assets/still_pour.gdshader" id="6_pour"]
 [ext_resource type="PackedScene" path="res://scenes/PlumBrandyBottle.tscn" id="7_plum_bottle"]
 [ext_resource type="PackedScene" path="res://scenes/PearSchnappsBottle.tscn" id="8_pear_bottle"]
 [ext_resource type="AudioStream" path="res://assets/audio/liquid_pour.wav" id="9_pour_sound"]
 [ext_resource type="AudioStream" path="res://assets/audio/bottle_clink.wav" id="11_clink_sound"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dab3r"]
-load_path = "res://.godot/imported/Steampunk Copper Distillation Apparatus.png-b4d2a40de7a49491510c0fb436dfea54.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cf84v"]
 atlas = ExtResource("4_177eh")
@@ -171,26 +168,22 @@ bottle_scene = ExtResource("2_dab3r")
 plum_bottle_scene = ExtResource("7_plum_bottle")
 pear_bottle_scene = ExtResource("8_pear_bottle")
 
-[node name="BottleStand" type="Sprite2D" parent="."]
-position = Vector2(185.5, 111.5)
-scale = Vector2(0.058, 0.058)
-texture = ExtResource("5_stand")
-
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1550959470]
 scale = Vector2(0.3, 0.3)
-texture = SubResource("CompressedTexture2D_dab3r")
+texture = ExtResource("5_workshop")
 
 [node name="BottleSpawnPoint" type="Marker2D" parent="." unique_id=2088601632]
-position = Vector2(168, 67)
+position = Vector2(121.8, 51.9)
+scale = Vector2(1.05, 1.05)
 
 [node name="PourStream" type="ColorRect" parent="."]
 visible = false
 z_index = 2
 material = SubResource("ShaderMaterial_pour")
-offset_left = 163.5
-offset_top = 20.0
-offset_right = 172.5
-offset_bottom = 41.5
+offset_left = 117.3
+offset_top = -26.1
+offset_right = 126.3
+offset_bottom = 1.0
 mouse_filter = 2
 
 [node name="PourSound" type="AudioStreamPlayer" parent="."]
@@ -204,20 +197,20 @@ max_polyphony = 2
 
 [node name="FurnaceFire" type="AnimatedSprite2D" parent="." unique_id=1620229000]
 visible = false
-position = Vector2(-37.000004, 74.00001)
-scale = Vector2(0.2, 0.2)
+position = Vector2(-113.1, 105.6)
+scale = Vector2(0.105, 0.105)
 sprite_frames = SubResource("SpriteFrames_losng")
 frame_progress = 0.8443962
 
 [node name="Gauge" type="AnimatedSprite2D" parent="." unique_id=1571759785]
 z_index = 1
-position = Vector2(-5, -8)
-scale = Vector2(0.3, 0.3)
+position = Vector2(-92.1, -7.8)
+scale = Vector2(0.36, 0.36)
 sprite_frames = SubResource("SpriteFrames_sdlpt")
 
 [node name="BoilerJointSteam" type="CPUParticles2D" parent="." unique_id=1517248436]
 visible = false
-position = Vector2(-49, -96)
+position = Vector2(-121.5, -123)
 emitting = false
 amount = 18
 texture = SubResource("GradientTexture2D_steam")
@@ -235,7 +228,7 @@ color_ramp = SubResource("Gradient_steam_fade")
 
 [node name="CondenserJointSteam" type="CPUParticles2D" parent="." unique_id=1255908842]
 visible = false
-position = Vector2(122, -96)
+position = Vector2(43.5, -124.2)
 emitting = false
 amount = 18
 texture = SubResource("GradientTexture2D_steam")

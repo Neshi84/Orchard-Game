@@ -57,6 +57,9 @@ func _fill_next_bottle() -> void:
 	var bottle = _batch_bottle_scene.instantiate()
 	bottle.crate = bottle_crate
 	bottle_spawn_point.add_child(bottle)
+	var sprite: Sprite2D = bottle.sprite
+	var sprite_bottom := sprite.transform * Vector2(0, sprite.get_rect().end.y)
+	bottle.position.y = -sprite_bottom.y
 	bottle.collected.connect(_on_bottle_collected)
 	stream.offset_bottom = to_local(bottle.mouth.global_position).y
 	_start_effects()

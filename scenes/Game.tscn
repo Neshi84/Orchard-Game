@@ -106,10 +106,10 @@ capacity = 5
 
 [node name="Still" parent="." unique_id=188314992 instance=ExtResource("4_kiw3p")]
 z_index = 2
-position = Vector2(1487, 843)
+position = Vector2(1565, 844.4)
 
 [node name="BottleCrate" type="Node2D" parent="."]
-position = Vector2(1787, 943)
+position = Vector2(1842, 943)
 z_index = 2
 script = ExtResource("18_crate_script")
 
