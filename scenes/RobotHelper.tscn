@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/RobotHelper.gd" id="1_robot"]
 [ext_resource type="PackedScene" path="res://scenes/RobotArtwork.tscn" id="2_art"]
+[ext_resource type="Theme" path="res://assets/robot_picker_theme.tres" id="3_picker_theme"]
 
 [node name="RobotHelper" type="Node2D"]
 z_index = 4
@@ -14,3 +15,34 @@ script = ExtResource("1_robot")
 [node name="Artwork" parent="Visual/Facing" instance=ExtResource("2_art")]
 position = Vector2(-82.889, -148.75)
 scale = Vector2(0.126355, 0.126355)
+
+[node name="ClickArea" type="Control" parent="."]
+offset_left = -70.0
+offset_top = -148.0
+offset_right = 70.0
+mouse_default_cursor_shape = 2
+tooltip_text = "Choose fruit for the robot"
+
+[node name="FruitPicker" type="PopupPanel" parent="."]
+title = "Robot helper"
+theme = ExtResource("3_picker_theme")
+
+[node name="Contents" type="VBoxContainer" parent="FruitPicker"]
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="FruitPicker/Contents"]
+theme_type_variation = &"PickerTitle"
+text = "Robot helper"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="FruitPicker/Contents"]
+theme_override_font_sizes/font_size = 19
+text = "Choose one fruit. Uncheck it to collect any fruit."
+horizontal_alignment = 1
+
+[node name="FruitChoices" type="VBoxContainer" parent="FruitPicker/Contents"]
+
+[node name="Done" type="Button" parent="FruitPicker/Contents"]
+custom_minimum_size = Vector2(118, 42)
+size_flags_horizontal = 4
+text = "Done"

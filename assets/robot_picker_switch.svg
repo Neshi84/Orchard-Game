@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="28" viewBox="0 0 96 28">
+  <defs>
+    <linearGradient id="brass" x2="0" y2="1">
+      <stop stop-color="#fff0af"/>
+      <stop offset=".48" stop-color="#eac070"/>
+      <stop offset="1" stop-color="#ab7136"/>
+    </linearGradient>
+  </defs>
+  <!-- The left half is idle, the right half is engaged. -->
+  <rect x="1.5" y="2.5" width="45" height="23" rx="11.5" fill="url(#brass)" stroke="#623d21" stroke-width="2"/>
+  <rect x="5" y="6" width="38" height="16" rx="8" fill="#655448" stroke="#79532e"/>
+  <circle cx="14" cy="14" r="8.5" fill="url(#brass)" stroke="#674121" stroke-width="1.5"/>
+  <path d="M11 17l6-6" stroke="#835328" stroke-width="2" stroke-linecap="round"/>
+  <rect x="49.5" y="2.5" width="45" height="23" rx="11.5" fill="url(#brass)" stroke="#623d21" stroke-width="2"/>
+  <rect x="53" y="6" width="38" height="16" rx="8" fill="#42674b" stroke="#354a35"/>
+  <circle cx="82" cy="14" r="8.5" fill="url(#brass)" stroke="#674121" stroke-width="1.5"/>
+  <path d="m77.8 14 2.8 2.6 5.6-6" fill="none" stroke="#45321e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

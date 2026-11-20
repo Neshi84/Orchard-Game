@@ -140,6 +140,8 @@ func _route_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 func _can_robot_collect(fruit: Node2D) -> bool:
 	if not is_instance_valid(fruit) or not fruit.is_on_ground():
 		return false
+	if robot_helper.selected_fruit != &"" and fruit.fruit_kind != robot_helper.selected_fruit:
+		return false
 	for barrel in barrels:
 		if barrel.can_accept_fruit(fruit.fruit_kind):
 			return true
