@@ -9,7 +9,7 @@ extends Node2D
 @export var fox_scene: PackedScene
 @export var hedgehog_scene: PackedScene
 
-const MAX_ORDER_QUANTITY := 30
+const MAX_ORDER_QUANTITY := 10
 
 @onready var trees: Array = [$Tree, $PlumTree, $PearTree]
 @onready var barrels: Array = [$Barrel, $Barrel2, $Barrel3]
@@ -35,7 +35,12 @@ const MAX_ORDER_QUANTITY := 30
 
 var bottle_counts: Dictionary[StringName, int] = {&"apple": 0, &"plum": 0, &"pear": 0}
 var order_requirements: Dictionary[StringName, int] = {}
-var gold := 0
+var gold := 0:
+	set(value):
+		gold = value
+		if is_node_ready():
+			gold_count.text = str(gold)
+			still.set_available_coins(gold)
 
 func _ready() -> void:
 	for tree in trees:
@@ -43,6 +48,8 @@ func _ready() -> void:
 	for barrel in barrels:
 		barrel.accept_batch = still.start_distilling
 	still.bottle_crate = bottle_crate
+	still.purchase_upgrade = _purchase_still_upgrade
+	still.set_available_coins(gold)
 	still.bottle_collected.connect(_on_bottle_collected)
 	ship_button.pressed.connect(_ship_order)
 	_roll_order()
@@ -164,3 +171,9 @@ func _ship_order() -> void:
 	gold_count.text = str(gold)
 	_roll_order()
 	order_status.text = "Order shipped!"
+
+func _purchase_still_upgrade(cost: int) -> bool:
+	if gold < cost:
+		return false
+	gold -= cost
+	return true

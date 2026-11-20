@@ -27,7 +27,7 @@ var _lid_tween: Tween
 
 @onready var visual: Node2D = $Visual
 @onready var lid: Node2D = $Visual/Lid
-@onready var fruit_icon: TextureRect = $Visual/FruitIcon
+@onready var fruit_icon: Panel = $Visual/FruitIcon
 @onready var tumble_sound: AudioStreamPlayer = $TumbleSound
 @onready var _visual_rest_position: Vector2 = visual.position
 @onready var _visual_rest_scale: Vector2 = visual.scale
@@ -44,7 +44,7 @@ func add_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 		return false
 	if current_amount == 0:
 		_batch_fruit_kind = fruit_kind
-		fruit_icon.texture = fruit_texture
+		fruit_icon.set_fruit(fruit_kind)
 	elif fruit_kind != _batch_fruit_kind:
 		return false
 
@@ -114,7 +114,7 @@ func _empty_into_still() -> void:
 		return
 	current_amount = 0
 	_batch_fruit_kind = &""
-	fruit_icon.texture = null
+	fruit_icon.set_fruit(&"")
 	state = State.ACCEPTING
 	visual.modulate = Color.WHITE
 	_update_label()

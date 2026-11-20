@@ -3,6 +3,11 @@
 [ext_resource type="Script" path="res://scripts/Hedgehog.gd" id="1_hedgehog"]
 [ext_resource type="Texture2D" path="res://assets/hedgehog.png" id="2_hedgehog"]
 [ext_resource type="Texture2D" path="res://assets/hedgehog_curled.png" id="3_curled"]
+[ext_resource type="Shader" path="res://assets/hedgehog_animation.gdshader" id="4_animation"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hedgehog"]
+resource_local_to_scene = true
+shader = ExtResource("4_animation")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_back"]
 size = Vector2(49, 22)
@@ -22,10 +27,10 @@ shape = SubResource("RectangleShape2D_back")
 
 [node name="Facing" type="Node2D" parent="Visual"]
 
-[node name="Sprite2D" type="Sprite2D" parent="Visual/Facing"]
+[node name="Body" type="MeshInstance2D" parent="Visual/Facing"]
 position = Vector2(0, -35.5)
-scale = Vector2(0.098, 0.098)
 texture = ExtResource("2_hedgehog")
+material = SubResource("ShaderMaterial_hedgehog")
 
 [node name="Cargo" type="Node2D" parent="Visual/Facing"]
 position = Vector2(-11, -76)

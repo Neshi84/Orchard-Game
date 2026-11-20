@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://e2l32n28wk4k" path="res://scripts/Barrel.gd" id="1_yuusr"]
 [ext_resource type="Texture2D" uid="uid://5ifpsab7c8fk" path="res://assets/barrel.png" id="2_58trb"]
-[ext_resource type="AudioStream" path="res://assets/audio/barrel_tumble.wav" id="3_tumble"]
+[ext_resource type="AudioStream" uid="uid://c7jrsk78uikoy" path="res://assets/audio/fruit_barrel_hit.wav" id="3_tumble"]
+[ext_resource type="Script" uid="uid://csfu67i5xs41w" path="res://scripts/FruitLabel.gd" id="4_label"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
 size = Vector2(85, 95)
@@ -14,35 +15,35 @@ script = ExtResource("1_yuusr")
 position = Vector2(-66, 96.00001)
 scale = Vector2(0.3, 0.3)
 
-[node name="Rim" type="Polygon2D" parent="Visual"]
+[node name="Rim" type="Polygon2D" parent="Visual" unique_id=158858240]
 color = Color(0.28, 0.12, 0.035, 1)
 offset = Vector2(-177, -219)
 polygon = PackedVector2Array(56, 115, 68, 103, 106, 96, 156, 93, 204, 93, 253, 98, 287, 106, 302, 115, 277, 128, 229, 136, 177, 139, 119, 135, 76, 126)
 
-[node name="Opening" type="Polygon2D" parent="Visual"]
-color = Color(0.10, 0.047, 0.023, 1)
+[node name="Opening" type="Polygon2D" parent="Visual" unique_id=48627522]
+color = Color(0.1, 0.047, 0.023, 1)
 offset = Vector2(-177, -219)
 polygon = PackedVector2Array(70, 115, 85, 107, 125, 101, 177, 99, 229, 101, 269, 107, 288, 115, 263, 124, 225, 130, 177, 133, 130, 130, 91, 124)
 
-[node name="Body" type="Polygon2D" parent="Visual"]
+[node name="Body" type="Polygon2D" parent="Visual" unique_id=1142935096]
 offset = Vector2(-177, -219)
 texture = ExtResource("2_58trb")
 polygon = PackedVector2Array(0, 114, 56, 114, 80, 124, 121, 131, 177, 135, 231, 131, 273, 123, 300, 114, 354, 114, 354, 438, 0, 438)
 uv = PackedVector2Array(0, 114, 56, 114, 80, 124, 121, 131, 177, 135, 231, 131, 273, 123, 300, 114, 354, 114, 354, 438, 0, 438)
 
-[node name="FruitIcon" type="TextureRect" parent="Visual"]
-offset_left = -56.0
-offset_top = -11.0
-offset_right = 56.0
-offset_bottom = 101.0
+[node name="FruitIcon" type="Panel" parent="Visual" unique_id=1146078613]
+visible = false
+offset_left = -66.66699
+offset_top = -0.5853119
+offset_right = 66.66701
+offset_bottom = 122.63569
 mouse_filter = 2
-expand_mode = 1
-stretch_mode = 5
+script = ExtResource("4_label")
 
-[node name="Lid" type="Node2D" parent="Visual"]
+[node name="Lid" type="Node2D" parent="Visual" unique_id=679724183]
 position = Vector2(0, -96)
 
-[node name="Artwork" type="Polygon2D" parent="Visual/Lid"]
+[node name="Artwork" type="Polygon2D" parent="Visual/Lid" unique_id=2069167717]
 offset = Vector2(-177, -123)
 texture = ExtResource("2_58trb")
 polygon = PackedVector2Array(0, 0, 354, 0, 354, 114, 300, 114, 273, 123, 231, 131, 177, 135, 121, 131, 80, 124, 56, 114, 0, 114)
@@ -52,10 +53,10 @@ uv = PackedVector2Array(0, 0, 354, 0, 354, 114, 300, 114, 273, 123, 231, 131, 17
 position = Vector2(-66.5, 106.5)
 shape = SubResource("RectangleShape2D_kvl6k")
 
-[node name="TumbleSound" type="AudioStreamPlayer" parent="."]
+[node name="TumbleSound" type="AudioStreamPlayer" parent="." unique_id=279904242]
 stream = ExtResource("3_tumble")
 volume_db = -9.0
 max_polyphony = 2
 
-[node name="FoxPerch" type="Marker2D" parent="."]
+[node name="FoxPerch" type="Marker2D" parent="." unique_id=706144064]
 position = Vector2(-66, 51)

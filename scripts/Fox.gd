@@ -1,8 +1,22 @@
 extends Node2D
 
+const AnimalAnimationMesh = preload("res://scripts/AnimalAnimationMesh.gd")
+const STRIDE_LENGTH := 96.0
+const SNATCH_OFFSET := Vector2(5.0, 4.0)
+
+static var _animation_mesh: ArrayMesh
+
 @onready var visual: Node2D = $Visual
+@onready var body: MeshInstance2D = $Visual/Body
+@onready var animation: ShaderMaterial = body.material
 @onready var bottle_carry: Marker2D = $Visual/BottleCarry
 @onready var _visual_rest_y: float = visual.position.y
+@onready var _mouth_rest_position: Vector2 = bottle_carry.position
+
+func _ready() -> void:
+	if _animation_mesh == null:
+		_animation_mesh = AnimalAnimationMesh.build(body.texture.get_size() * 0.078)
+	body.mesh = _animation_mesh
 
 func cross_orchard(
 	perches: Array[Marker2D], landing: Marker2D, exit_x: float,
@@ -18,9 +32,10 @@ func cross_orchard(
 func _pass_bottle_stand(bottle_position: Vector2, take_bottle: Callable) -> void:
 	var ground_y := global_position.y
 	await _run_to(bottle_position.x - 130.0)
-	var grab_position := bottle_position - (bottle_carry.global_position - global_position)
+	var mouth_reach := visual.to_global(_mouth_rest_position + SNATCH_OFFSET) - global_position
+	var grab_position := bottle_position - mouth_reach
 	grab_position.y -= 18.0
-	await _jump_to(grab_position, 34.0, 0.34)
+	await _jump_to(grab_position, 34.0, 0.34, true)
 	var bottle = take_bottle.call(bottle_carry)
 	if bottle != null:
 		bottle.position = -bottle.mouth.position
@@ -28,24 +43,46 @@ func _pass_bottle_stand(bottle_position: Vector2, take_bottle: Callable) -> void
 
 func _run_to(target_x: float) -> void:
 	var distance := absf(target_x - global_position.x)
+	if is_zero_approx(distance):
+		return
 	var duration := distance / 440.0
 	var run := create_tween().set_parallel()
 	run.tween_property(self, "global_position:x", target_x, duration)
-	run.tween_method(_set_run_pose, 0.0, distance * TAU / 54.0, duration)
+	run.tween_method(_set_run_pose.bind(distance), 0.0, distance, duration)
 	await run.finished
 	visual.rotation = 0.0
 	visual.position.y = _visual_rest_y
 
-func _set_run_pose(phase: float) -> void:
-	visual.position.y = _visual_rest_y - absf(sin(phase)) * 5.0
-	visual.rotation = sin(phase) * 0.045
+func _set_run_pose(traveled: float, distance: float) -> void:
+	var phase := traveled * TAU / STRIDE_LENGTH
+	var weight := smoothstep(0.0, 20.0, minf(traveled, distance - traveled))
+	animation.set_shader_parameter("run_phase", phase)
+	animation.set_shader_parameter("run_weight", weight)
+	visual.position.y = _visual_rest_y - (1.0 - cos(phase)) * 2.2 * weight
+	visual.rotation = sin(phase) * 0.075 * weight
 
-func _jump_to(target: Vector2, height: float, duration: float) -> void:
+func _jump_to(target: Vector2, height: float, duration: float, reach_for_bottle: bool = false) -> void:
 	var jump := create_tween()
-	jump.tween_method(_set_jump_pose.bind(global_position, target, height), 0.0, 1.0, duration)
+	var initial_reach := bottle_carry.position - _mouth_rest_position
+	jump.tween_method(
+		_set_jump_pose.bind(global_position, target, height, initial_reach, reach_for_bottle),
+		0.0, 1.0, duration
+	)
 	await jump.finished
 
-func _set_jump_pose(progress: float, start: Vector2, target: Vector2, height: float) -> void:
-	var arc := sin(progress * PI)
+func _set_jump_pose(
+	progress: float, start: Vector2, target: Vector2, height: float,
+	initial_reach: Vector2, reach_for_bottle: bool
+) -> void:
+	var arc := maxf(0.0, sin(progress * PI))
 	global_position = start.lerp(target, progress) - Vector2(0.0, height * arc)
-	visual.rotation = -sin(progress * TAU) * 0.16
+	visual.rotation = -sin(progress * TAU) * 0.22
+	animation.set_shader_parameter("leap", arc)
+	var landing := smoothstep(0.68, 0.88, progress) * (1.0 - smoothstep(0.88, 1.0, progress))
+	animation.set_shader_parameter("landing", landing)
+
+	var reach := initial_reach * (1.0 - smoothstep(0.0, 0.45, progress))
+	if reach_for_bottle:
+		reach = SNATCH_OFFSET * smoothstep(0.48, 1.0, progress)
+	animation.set_shader_parameter("snout_offset", reach)
+	bottle_carry.position = _mouth_rest_position + reach

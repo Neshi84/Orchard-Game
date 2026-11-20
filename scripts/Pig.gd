@@ -3,8 +3,18 @@ extends Node2D
 @export var walk_speed: float = 235.0
 @export var snout_reach: float = 46.0
 
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var _sprite_rest_y: float = sprite.position.y
+const AnimalAnimationMesh = preload("res://scripts/AnimalAnimationMesh.gd")
+const STRIDE_LENGTH := 56.0
+
+static var _animation_mesh: ArrayMesh
+
+@onready var visual: MeshInstance2D = $Visual
+@onready var animation: ShaderMaterial = visual.material
+
+func _ready() -> void:
+	if _animation_mesh == null:
+		_animation_mesh = AnimalAnimationMesh.build(visual.texture.get_size() * 0.1)
+	visual.mesh = _animation_mesh
 
 func visit(fallen_fruits: Array) -> void:
 	var exit_x := global_position.x
@@ -21,29 +31,32 @@ func _walk_to(target_x: float) -> void:
 	var distance := absf(target_x - global_position.x)
 	if distance < 1.0:
 		return
-	sprite.flip_h = target_x < global_position.x
+	visual.scale.x = signf(target_x - global_position.x)
 	var duration := distance / walk_speed
 	var walk := create_tween().set_parallel()
 	walk.tween_property(self, "global_position:x", target_x, duration)
-	walk.tween_method(_set_walk_pose, 0.0, distance * TAU / 42.0, duration)
+	walk.tween_method(_set_walk_pose.bind(distance), 0.0, distance, duration)
 	await walk.finished
-	sprite.rotation = 0.0
-	sprite.position.y = _sprite_rest_y
+	animation.set_shader_parameter("walk_weight", 0.0)
 
-func _set_walk_pose(phase: float) -> void:
-	sprite.position.y = _sprite_rest_y - absf(sin(phase)) * 3.5
-	sprite.rotation = sin(phase) * 0.035
+func _set_walk_pose(traveled: float, distance: float) -> void:
+	animation.set_shader_parameter("walk_phase", traveled * TAU / STRIDE_LENGTH)
+	animation.set_shader_parameter("walk_weight", smoothstep(0.0, 12.0, minf(traveled, distance - traveled)))
 
 func _eat(fruit) -> void:
-	sprite.flip_h = false
-	var dip := create_tween().set_parallel().set_trans(Tween.TRANS_SINE)
-	dip.tween_property(sprite, "rotation_degrees", 9.0, 0.15)
-	dip.tween_property(sprite, "position:y", _sprite_rest_y + 1.0, 0.15)
+	visual.scale.x = 1.0
+	var dip := create_tween().set_trans(Tween.TRANS_SINE)
+	dip.tween_property(animation, "shader_parameter/head_dip", 1.0, 0.18)
 	await dip.finished
-	if is_instance_valid(fruit):
+	if is_instance_valid(fruit) and fruit.is_on_ground():
 		fruit.eat()
+		var chew := create_tween()
+		chew.tween_method(_set_chew_pose, 0.0, TAU * 3.0, 0.36)
+		await chew.finished
+		animation.set_shader_parameter("chew", 0.0)
 	var lift := create_tween().set_trans(Tween.TRANS_SINE)
-	lift.tween_interval(0.12)
-	lift.tween_property(sprite, "rotation", 0.0, 0.17)
-	lift.parallel().tween_property(sprite, "position:y", _sprite_rest_y, 0.17)
+	lift.tween_property(animation, "shader_parameter/head_dip", 0.0, 0.18)
 	await lift.finished
+
+func _set_chew_pose(phase: float) -> void:
+	animation.set_shader_parameter("chew", 0.5 - 0.5 * cos(phase))

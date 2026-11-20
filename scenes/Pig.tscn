@@ -2,12 +2,18 @@
 
 [ext_resource type="Script" path="res://scripts/Pig.gd" id="1_pig"]
 [ext_resource type="Texture2D" path="res://assets/pig.png" id="2_pig"]
+[ext_resource type="Shader" path="res://assets/pig_animation.gdshader" id="3_animation"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pig"]
+resource_local_to_scene = true
+shader = ExtResource("3_animation")
+shader_parameter/head_dip = 0.0
 
 [node name="Pig" type="Node2D"]
 z_index = 2
 script = ExtResource("1_pig")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Visual" type="MeshInstance2D" parent="."]
 position = Vector2(0, -32)
-scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_pig")
+material = SubResource("ShaderMaterial_pig")

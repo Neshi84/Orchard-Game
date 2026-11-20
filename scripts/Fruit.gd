@@ -37,6 +37,9 @@ func _ready() -> void:
 	input_event.connect(_on_input_event)
 	input_pickable = false
 	if dropped_from_cargo:
+		# Fruit still belongs to its tree, but cargo can land in front of the workshop.
+		z_as_relative = false
+		z_index = 5
 		fall_duration = 0.28
 		_fall()
 		return

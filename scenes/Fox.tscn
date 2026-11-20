@@ -2,19 +2,25 @@
 
 [ext_resource type="Script" path="res://scripts/Fox.gd" id="1_fox"]
 [ext_resource type="Texture2D" path="res://assets/fox.png" id="2_fox"]
+[ext_resource type="Shader" path="res://assets/fox_animation.gdshader" id="3_animation"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fox"]
+resource_local_to_scene = true
+shader = ExtResource("3_animation")
 
 [node name="Fox" type="Node2D" groups=["fox"]]
 z_index = 6
 script = ExtResource("1_fox")
 
 [node name="Visual" type="Node2D" parent="."]
-position = Vector2(0, -24)
+position = Vector2(0, -26.4)
+scale = Vector2(1.1, 1.1)
 
-[node name="Sprite2D" type="Sprite2D" parent="Visual"]
-scale = Vector2(0.078, 0.078)
+[node name="Body" type="MeshInstance2D" parent="Visual"]
 texture = ExtResource("2_fox")
+material = SubResource("ShaderMaterial_fox")
 
 [node name="BottleCarry" type="Marker2D" parent="Visual"]
 position = Vector2(57, 2)
 rotation = -1.309
-scale = Vector2(0.65, 0.65)
+scale = Vector2(0.590909, 0.590909)
