@@ -14,6 +14,7 @@ const MAX_ORDER_QUANTITY := 10
 @onready var trees: Array = [$Tree, $PlumTree, $PearTree]
 @onready var barrels: Array = [$Barrel, $Barrel2, $Barrel3]
 @onready var still = $Still
+@onready var robot_helper = $RobotHelper
 @onready var bottle_crate = $BottleCrate
 @onready var pig_entrance: Marker2D = $PigEntrance
 @onready var pig_visit_timer: Timer = $PigVisitTimer
@@ -47,6 +48,8 @@ func _ready() -> void:
 		tree.accept_fruit = _route_fruit
 	for barrel in barrels:
 		barrel.accept_batch = still.start_distilling
+	robot_helper.find_fruit = _find_robot_fruit
+	robot_helper.can_collect = _can_robot_collect
 	still.bottle_crate = bottle_crate
 	still.purchase_upgrade = _purchase_still_upgrade
 	still.set_available_coins(gold)
@@ -133,6 +136,27 @@ func _route_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 		if barrel.add_fruit(fruit_kind, fruit_texture):
 			return true
 	return false
+
+func _can_robot_collect(fruit: Node2D) -> bool:
+	if not is_instance_valid(fruit) or not fruit.is_on_ground():
+		return false
+	for barrel in barrels:
+		if barrel.can_accept_fruit(fruit.fruit_kind):
+			return true
+	return false
+
+func _find_robot_fruit(from_position: Vector2) -> Node2D:
+	var nearest: Node2D
+	var nearest_distance := INF
+	for tree in trees:
+		for fruit in tree.get_fallen_fruits():
+			if not _can_robot_collect(fruit):
+				continue
+			var distance: float = from_position.distance_squared_to(fruit.global_position)
+			if distance < nearest_distance:
+				nearest = fruit
+				nearest_distance = distance
+	return nearest
 
 func _on_bottle_collected(fruit_kind: StringName) -> void:
 	bottle_counts[fruit_kind] += 1

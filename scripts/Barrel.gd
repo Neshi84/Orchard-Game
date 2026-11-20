@@ -40,13 +40,11 @@ func _ready() -> void:
 
 ## Accept only fruit that matches the first fruit in this batch.
 func add_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
-	if state != State.ACCEPTING or current_amount >= capacity:
+	if not can_accept_fruit(fruit_kind):
 		return false
 	if current_amount == 0:
 		_batch_fruit_kind = fruit_kind
 		fruit_icon.set_fruit(fruit_kind)
-	elif fruit_kind != _batch_fruit_kind:
-		return false
 
 	current_amount += 1
 	_update_label()
@@ -55,6 +53,11 @@ func add_fruit(fruit_kind: StringName, fruit_texture: Texture2D) -> bool:
 	if current_amount >= capacity:
 		_start_fermenting()
 	return true
+
+func can_accept_fruit(fruit_kind: StringName) -> bool:
+	return state == State.ACCEPTING and current_amount < capacity and (
+		current_amount == 0 or fruit_kind == _batch_fruit_kind
+	)
 
 func _shake() -> void:
 	if _shake_tween and _shake_tween.is_running():

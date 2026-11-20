@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" path="res://assets/order_scroll.svg" id="19_order_scroll"]
 [ext_resource type="Texture2D" path="res://assets/gold_coin.svg" id="20_gold_coin"]
 [ext_resource type="Script" path="res://scripts/PauseMenu.gd" id="21_pause_menu"]
+[ext_resource type="PackedScene" path="res://scenes/RobotHelper.tscn" id="22_robot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvl6k"]
 size = Vector2(1665.2362, 10.566528)
@@ -107,6 +108,9 @@ capacity = 5
 [node name="Still" parent="." unique_id=188314992 instance=ExtResource("4_kiw3p")]
 z_index = 2
 position = Vector2(1485, 844.4)
+
+[node name="RobotHelper" parent="." instance=ExtResource("22_robot")]
+position = Vector2(900, 988)
 
 [node name="BottleCrate" type="Node2D" parent="."]
 position = Vector2(1762, 943)
