@@ -1,26 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/RobotHelper.gd" id="1_robot"]
-[ext_resource type="Texture2D" path="res://assets/robot_helper_kettle.png" id="2_robot"]
-[sub_resource type="Gradient" id="Gradient_puff"]
-offsets = PackedFloat32Array(0, 0.4, 1)
-colors = PackedColorArray(1, 0.98, 0.92, 0.85, 1, 0.99, 0.95, 0.6, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_puff"]
-gradient = SubResource("Gradient_puff")
-width = 24
-height = 24
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
-
-[sub_resource type="Gradient" id="Gradient_fade"]
-offsets = PackedFloat32Array(0, 0.2, 1)
-colors = PackedColorArray(1, 1, 1, 0.3, 1, 1, 1, 0.75, 1, 1, 1, 0)
-
-[sub_resource type="Curve" id="Curve_puff_growth"]
-_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
+[ext_resource type="PackedScene" path="res://scenes/RobotArtwork.tscn" id="2_art"]
 
 [node name="RobotHelper" type="Node2D"]
 z_index = 4
@@ -30,25 +11,6 @@ script = ExtResource("1_robot")
 
 [node name="Facing" type="Node2D" parent="Visual"]
 
-[node name="Artwork" type="Sprite2D" parent="Visual/Facing"]
-texture_filter = 3
-position = Vector2(0, -73)
-texture = ExtResource("2_robot")
-
-[node name="BoilerSteam" type="CPUParticles2D" parent="Visual/Facing"]
-position = Vector2(-35, -120)
-amount = 9
-lifetime = 1.0
-preprocess = 0.3
-randomness = 0.55
-texture = SubResource("GradientTexture2D_puff")
-direction = Vector2(-0.3, -1)
-spread = 18.0
-gravity = Vector2(0, -8)
-initial_velocity_min = 12.0
-initial_velocity_max = 22.0
-scale_amount_min = 0.32
-scale_amount_max = 0.6
-scale_amount_curve = SubResource("Curve_puff_growth")
-color_ramp = SubResource("Gradient_fade")
-local_coords = false
+[node name="Artwork" parent="Visual/Facing" instance=ExtResource("2_art")]
+position = Vector2(-82.889, -148.75)
+scale = Vector2(0.126355, 0.126355)
